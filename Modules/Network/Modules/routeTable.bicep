@@ -31,7 +31,7 @@ resource routeTable 'Microsoft.Network/routeTables@2024-05-01' = {
 }
 
 resource gatewayRouteTable 'Microsoft.Network/routeTables@2024-05-01' = {
-  name: 'nicholas-hub-spoke-network-gateway'
+  name: 'vpn-route'
   location: resourceLocation
   properties: {
     disableBgpRoutePropagation: false

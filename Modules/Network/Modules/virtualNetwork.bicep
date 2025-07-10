@@ -64,7 +64,7 @@ resource spokeVnetDeploy 'Microsoft.Network/virtualNetworks@2024-05-01' = {
       {
         name: 'AKSSubnet'
         properties: {
-          addressPrefix: networkConfiguration.spokeNetwork.azureAKSSubnet
+          addressPrefix: networkConfiguration.spokeNetwork.subnets.azureAKSSubnet
           routeTable: {
             id: routeTableID
           }
@@ -73,7 +73,7 @@ resource spokeVnetDeploy 'Microsoft.Network/virtualNetworks@2024-05-01' = {
       {
         name: 'FilesEndpointSubnet'
         properties: {
-          addressPrefix: networkConfiguration.spokeNetwork.azureFilesEndpointSubnet
+          addressPrefix: networkConfiguration.spokeNetwork.subnets.azureFilesEndpointSubnet
           routeTable: {
             id: routeTableID
           }
@@ -82,7 +82,7 @@ resource spokeVnetDeploy 'Microsoft.Network/virtualNetworks@2024-05-01' = {
       {
         name: 'TestSubnet'
         properties: {
-          addressPrefix: networkConfiguration.spokeNetwork.azureTestSubnet
+          addressPrefix: networkConfiguration.spokeNetwork.subnets.azureTestSubnet
           routeTable: {
             id: routeTableID
           }
