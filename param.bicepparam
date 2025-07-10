@@ -34,9 +34,6 @@ param networkConfiguration = {
       azureGatewaySubnet: '10.0.2.0/24'
       azureVMSubnet: '10.0.3.0/24'
     }
-    dnsServers: [
-      ''
-    ]
   }
   spokeNetwork: {
     addressSpaces: [
@@ -47,9 +44,6 @@ param networkConfiguration = {
       azureFilesEndpointSubnet: '10.10.2.0/24'
       azureTestSubnet: '10.10.3.0/24'
     }
-    dnsServers: [
-      ''
-    ]
   }
   staticIPAddresses: {
     azureFirewall: '10.0.1.68'

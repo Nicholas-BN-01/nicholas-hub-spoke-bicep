@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.36.177.2456",
-      "templateHash": "3546069312226047390"
+      "templateHash": "10076692198950755193"
     }
   },
   "parameters": {
@@ -54,7 +54,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.36.177.2456",
-              "templateHash": "11553683922434001788"
+              "templateHash": "17400246215903790531"
             }
           },
           "parameters": {
@@ -96,7 +96,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.36.177.2456",
-                      "templateHash": "8775895086737752025"
+                      "templateHash": "5458992057771706904"
                     }
                   },
                   "parameters": {
@@ -141,7 +141,7 @@
                     },
                     {
                       "type": "Microsoft.Network/routeTables",
-                      "apiVersion": "2023-05-01",
+                      "apiVersion": "2024-05-01",
                       "name": "nicholas-hub-spoke-network-gateway",
                       "location": "[parameters('resourceLocation')]",
                       "properties": {

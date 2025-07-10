@@ -12,9 +12,6 @@ resource hubVnetDeploy 'Microsoft.Network/virtualNetworks@2024-05-01' = {
     addressSpace: {
       addressPrefixes: networkConfiguration.hubNetwork.addressSpaces
     }
-    dhcpOptions: {
-      dnsServers: networkConfiguration.hubNetwork.dnsServers
-    }
     subnets: [
       {
         name: 'AzureBastionSubnet'
@@ -62,9 +59,6 @@ resource spokeVnetDeploy 'Microsoft.Network/virtualNetworks@2024-05-01' = {
   properties: {
     addressSpace: {
       addressPrefixes: networkConfiguration.spokeNetwork.addressSpaces
-    }
-    dhcpOptions: {
-      dnsServers: networkConfiguration.spokeNetwork.dnsServers
     }
     subnets: [
       {
