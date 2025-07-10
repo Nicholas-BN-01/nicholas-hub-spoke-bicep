@@ -49,7 +49,7 @@ param networkConfiguration = {
     }
   }
   staticIPAddresses: {
-    azureFirewall: '10.0.1.68'
+    azureFirewall: '10.0.1.4'
     hubVM: '10.0.3.4'
     testVM: '10.10.3.4'
     AKSAPIServer: '10.10.1.4'
