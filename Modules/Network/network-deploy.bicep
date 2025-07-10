@@ -1,7 +1,7 @@
 param resourceNames object
 param resourceLocation string
 param networkConfiguration object
-/*
+
 module azureFirewallPolicy 'Modules/afw-policy.bicep' = {
   name: 'azureFirewallPolicy-Deploy'
   params: {
@@ -9,7 +9,7 @@ module azureFirewallPolicy 'Modules/afw-policy.bicep' = {
     resourceNames: resourceNames
   }
 }
-*/
+
 module routeTable 'Modules/routeTable.bicep' = {
   name: 'routeTable-Deploy'
   params: {
@@ -52,7 +52,7 @@ module azureBastionDeploy 'Modules/bastion.bicep' = {
     resourceNames: resourceNames
   }
 }
-/*
+
 module azureFirewallDeploy 'Modules/afw.bicep' = {
   name: 'azureFirewall-Deploy'
   dependsOn: [
@@ -60,12 +60,12 @@ module azureFirewallDeploy 'Modules/afw.bicep' = {
     routeTable
   ]
   params: {
-    azureFirewallPolicyId: azureFirewallPolicy.outputs.azureFirewallPolicyId
+    azureFirewallPolicyId: azureFirewallPolicy.outputs.azureFirewallPolicyID
     resourceLocation: resourceLocation
     resourceNames: resourceNames
   }
 }
-
+/*
 module azureVPNGatewayDeploy 'Modules/vpnGw.bicep' = {
   name: 'azureVPNGateway-Deploy'
   params: {
