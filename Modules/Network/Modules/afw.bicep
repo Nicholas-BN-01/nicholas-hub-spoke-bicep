@@ -22,7 +22,7 @@ resource firewallPublicIP 'Microsoft.Network/publicIPAddresses@2024-05-01' = {
   location: resourceLocation
   sku: {
     tier: 'Regional'
-    name: 'Basic'
+    name: 'Standard'
   }
   properties: {
     publicIPAllocationMethod: 'Static'
@@ -35,7 +35,7 @@ resource firewallManagementPublicIP 'Microsoft.Network/publicIPAddresses@2024-05
   name: resourceNames.network.azureFirewallManagementPublicIP
   location: resourceLocation
   sku: {
-    name: 'Basic'
+    name: 'Standard'
     tier: 'Regional'
   }
   properties: {
