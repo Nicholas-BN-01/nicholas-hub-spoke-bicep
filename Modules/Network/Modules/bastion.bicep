@@ -5,7 +5,7 @@ resource azureBastionPublicIP 'Microsoft.Network/publicIPAddresses@2024-05-01' =
   name: resourceNames.network.azureBastionPublicIP
   location: resourceLocation
   sku: {
-    name: 'Basic'
+    name: 'Standard'
     tier: 'Regional'
   }
   properties: {
