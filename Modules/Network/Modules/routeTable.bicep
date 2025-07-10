@@ -57,7 +57,17 @@ resource vmRouteTable 'Microsoft.Network/routeTables@2024-05-01' = {
       {
         name: 'VM-to-AKS'
         properties: {
-
+          addressPrefix: '10.10.1.0/24'
+          nextHopType: 'VirtualAppliance'
+          nextHopIpAddress: azureFirewallPrivateIP
+        }
+      }
+      {
+        name: 'VM-to-Files'
+        properties: {
+          addressPrefix: '10.10.2.0/24'
+          nextHopType: 'VirtualAppliance'
+          nextHopIpAddress: azureFirewallPrivateIP
         }
       }
     ]

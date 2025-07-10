@@ -25,11 +25,12 @@ module virtualNetwork 'Modules/virtualNetwork.bicep' = {
     networkConfiguration: networkConfiguration
     resourceLocation: resourceLocation
     resourceNames: resourceNames
-    routeTableId: routeTable.outputs.routeTableId
-    gatewayRouteTableId: routeTable.outputs.gatewayRouteTableId
+    routeTableID: routeTable.outputs.routeTableID
+    gatewayRouteTableID: routeTable.outputs.gatewayRouteTableID
+    vmRouteTableID: routeTable.outputs.vmRouteTableID
   }
 }
-
+/*
 module azureBastionDeploy 'Modules/bastion.bicep' = {
   dependsOn: [
     virtualNetwork
@@ -58,6 +59,7 @@ module azureVPNGatewayDeploy 'Modules/vpnGw.bicep' = {
   name: 'azureVPNGateway-Deploy'
   params: {
     resourceLocation: resourceLocation
-    vNetId: virtualNetwork.outputs.vnetId
+    vNetId: virtualNetwork.outputs.hubVnetID
   }
 }
+*/

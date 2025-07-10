@@ -97,3 +97,6 @@ resource spokeVnetDeploy 'Microsoft.Network/virtualNetworks@2024-05-01' = {
     ]
   }
 }
+
+output hubVnetID string = hubVnetDeploy.id
+output spokeVnetID string = spokeVnetDeploy.id
