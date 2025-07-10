@@ -60,7 +60,7 @@ param networkConfiguration = {
     AKSLoadBalancer1: '10.10.1.6'
   }
 }
-
+/*
 param virtualMachineGlobals = {
   adminUsername: 'linuxadmin'
   adminPassword: 'Nicholas01!'
@@ -72,7 +72,7 @@ param virtualMachineGlobals = {
     version: 'latest'
   }
 }
-/*
+
 param virtualMachineProperties = {
 
 }
