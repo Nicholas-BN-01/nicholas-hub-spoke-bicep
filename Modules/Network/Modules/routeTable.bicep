@@ -30,7 +30,7 @@ resource routeTable 'Microsoft.Network/routeTables@2024-05-01' = {
   }
 }
 
-resource gatewayRouteTable 'Microsoft.Network/routeTables@2023-05-01' = {
+resource gatewayRouteTable 'Microsoft.Network/routeTables@2024-05-01' = {
   name: 'nicholas-hub-spoke-network-gateway'
   location: resourceLocation
   properties: {
