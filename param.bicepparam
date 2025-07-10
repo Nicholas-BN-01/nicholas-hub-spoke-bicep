@@ -14,6 +14,7 @@ param resourceNames = {
     hubNetwork: 'hub-vnet-${azureRgSuffix}'
     spokeNetwork: 'spoke-vnet-${azureRgSuffix}'
     azureBastion: 'bastion-${azureRgSuffix}'
+    azureBastionPublicIP: 'bastion-ip-${azureRgSuffix}'
     azureFirewall: 'fw-${azureRgSuffix}'
     azureFirewallPublicIP: 'fw-ip-${azureRgSuffix}'
     azureFirewallManagementPublicIP: 'fw-mng-ip-${azureRgSuffix}'

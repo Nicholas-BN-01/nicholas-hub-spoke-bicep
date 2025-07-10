@@ -42,7 +42,6 @@ module virtualNetworkPeerings 'Modules/vnet-peering.bicep' = {
   }
 }
 
-/*
 module azureBastionDeploy 'Modules/bastion.bicep' = {
   dependsOn: [
     virtualNetwork
@@ -53,7 +52,7 @@ module azureBastionDeploy 'Modules/bastion.bicep' = {
     resourceNames: resourceNames
   }
 }
-
+/*
 module azureFirewallDeploy 'Modules/afw.bicep' = {
   name: 'azureFirewall-Deploy'
   dependsOn: [

@@ -20,8 +20,8 @@ resource hubSpokePeering 'Microsoft.Network/virtualNetworks/virtualNetworkPeerin
   name: resourceNames.network.hubPeering
   properties: {
     allowVirtualNetworkAccess: true
-    allowForwardedTraffic: false
-    allowGatewayTransit: true
+    allowForwardedTraffic: true
+    allowGatewayTransit: false // true when deploying gateway
     useRemoteGateways: false
     remoteVirtualNetwork: {
       id: spokeVnetID
@@ -34,9 +34,9 @@ resource spokeHubPeering 'Microsoft.Network/virtualNetworks/virtualNetworkPeerin
   name: resourceNames.network.spokePeering
   properties: {
     allowVirtualNetworkAccess: true
-    allowForwardedTraffic: false
+    allowForwardedTraffic: true
     allowGatewayTransit: false
-    useRemoteGateways: true
+    useRemoteGateways: false // true when deploying gateway
     remoteVirtualNetwork: {
       id: hubVnetID
     }
