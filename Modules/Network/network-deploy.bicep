@@ -30,6 +30,18 @@ module virtualNetwork 'Modules/virtualNetwork.bicep' = {
     vmRouteTableID: routeTable.outputs.vmRouteTableID
   }
 }
+
+module virtualNetworkPeerings 'Modules/vnet-peering.bicep' = {
+  name: 'virtualNetworkPeerings-Deploy'
+  params: {
+    resourceNames: resourceNames
+    hubVnetID: virtualNetwork.outputs.hubVnetID
+    spokeVnetID: virtualNetwork.outputs.spokeVnetID
+    hubVnetName: virtualNetwork.outputs.hubVnetName
+    spokeVnetName: virtualNetwork.outputs.spokeVnetName
+  }
+}
+
 /*
 module azureBastionDeploy 'Modules/bastion.bicep' = {
   dependsOn: [

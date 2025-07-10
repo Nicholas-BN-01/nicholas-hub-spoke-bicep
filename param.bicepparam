@@ -19,6 +19,8 @@ param resourceNames = {
     azureFirewallManagementPublicIP: 'fw-mng-ip-${azureRgSuffix}'
     azureFirewallPolicy: 'fw-policy-${azureRgSuffix}'
     internetRouteTable: 'iroute-${azureRgSuffix}'
+    hubPeering: 'hub-peering-${azureRgSuffix}'
+    spokePeering: 'spoke-peering-${azureRgSuffix}'
   }
 }
 
