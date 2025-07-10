@@ -1,7 +1,7 @@
 param resourceNames object
-param resourceLocation object
+param resourceLocation string
 param networkConfiguration object
-
+/*
 module azureFirewallPolicy 'Modules/afw-policy.bicep' = {
   name: 'azureFirewallPolicy-Deploy'
   params: {
@@ -9,11 +9,11 @@ module azureFirewallPolicy 'Modules/afw-policy.bicep' = {
     resourceNames: resourceNames
   }
 }
-
+*/
 module routeTable 'Modules/routeTable.bicep' = {
   name: 'routeTable-Deploy'
   params: {
-    azureFirewallPrivateIp: networkConfiguration.staticIpAddresses.azureFirewall
+    azureFirewallPrivateIP: networkConfiguration.staticIPAddresses.azureFirewall
     resourceLocation: resourceLocation
     resourceNames: resourceNames
   }

@@ -1,0 +1,69 @@
+param resourceNames object
+param resourceLocation string
+
+param azureFirewallPrivateIP string
+
+resource routeTable 'Microsoft.Network/routeTables@2024-05-01' = {
+  name: resourceNames.network.internetRouteTable
+  location: resourceLocation
+  properties: {
+    disableBgpRoutePropagation: true
+    routes: [
+      {
+        name: 'Internet'
+        type: 'Internet'
+        properties: {
+          addressPrefix: '0.0.0.0/0'
+          nextHopType: 'VirtualAppliance'
+          nextHopIpAddress: azureFirewallPrivateIP
+        }
+      }
+      {
+        name: 'VPN-Clients-Return'
+        properties: {
+          addressPrefix: '172.16.0.0/24'
+          nextHopType: 'VirtualAppliance'
+          nextHopIpAddress: azureFirewallPrivateIP
+        }
+      }
+    ]
+  }
+}
+
+resource gatewayRouteTable 'Microsoft.Network/routeTables@2023-05-01' = {
+  name: 'nicholas-hub-spoke-network-gateway'
+  location: resourceLocation
+  properties: {
+    disableBgpRoutePropagation: false
+    routes: [
+      {
+        name: 'VPN-to-Internal'
+        properties: {
+          addressPrefix: '172.16.0.0/24'
+          nextHopType: 'VirtualAppliance'
+          nextHopIpAddress: azureFirewallPrivateIP
+        }
+      }
+    ]
+  }
+}
+
+resource vmRouteTable 'Microsoft.Network/routeTables@2024-05-01' = {
+  name: 'vm-route'
+  location: resourceLocation
+  properties: {
+    disableBgpRoutePropagation: true
+    routes: [
+      {
+        name: 'VM-to-AKS'
+        properties: {
+
+        }
+      }
+    ]
+  }
+}
+
+output routeTableID string = routeTable.id
+output gatewayRouteTableID string = gatewayRouteTable.id
+output vmRouteTableID string = vmRouteTable.id

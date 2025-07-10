@@ -3,6 +3,7 @@ param resourceLocation string
 param networkConfiguration object
 param routeTableID string
 param gatewayRouteTableID string
+param vmRouteTableID string
 
 resource hubVnetDeploy 'Microsoft.Network/virtualNetworks@2024-05-01' = {
   name: resourceNames.network.hubNetwork
@@ -47,7 +48,7 @@ resource hubVnetDeploy 'Microsoft.Network/virtualNetworks@2024-05-01' = {
         properties: {
           addressPrefix: networkConfiguration.hubNetwork.subnets.azureVMSubnet
           routeTable: {
-            id: routeTableID
+            id: vmRouteTableID
           }
         }
       }
@@ -70,18 +71,27 @@ resource spokeVnetDeploy 'Microsoft.Network/virtualNetworks@2024-05-01' = {
         name: 'AKSSubnet'
         properties: {
           addressPrefix: networkConfiguration.spokeNetwork.azureAKSSubnet
+          routeTable: {
+            id: routeTableID
+          }
         }
       }
       {
         name: 'FilesEndpointSubnet'
         properties: {
           addressPrefix: networkConfiguration.spokeNetwork.azureFilesEndpointSubnet
+          routeTable: {
+            id: routeTableID
+          }
         }
       }
       {
         name: 'TestSubnet'
         properties: {
           addressPrefix: networkConfiguration.spokeNetwork.azureTestSubnet
+          routeTable: {
+            id: routeTableID
+          }
         }
       }
     ]
