@@ -70,7 +70,7 @@ resource vmNSG 'Microsoft.Network/networkSecurityGroups@2024-07-01' = if (vmName
   location: resourceLocation
   name: 'nsg-${vmName}'
   properties: {
-    flushConnection: true
+    flushConnection: false
     securityRules: [
       {
         name: 'Allow-SSH-VPN'

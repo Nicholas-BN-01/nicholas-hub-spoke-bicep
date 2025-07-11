@@ -45,7 +45,7 @@ resource internalDNSZoneGroup 'Microsoft.Network/privateDnsZones@2024-06-01' = {
 }
 
 resource internalDNSZoneLinkHub 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@2024-06-01' = {
-  name: 'internalPrivateDNSZoneLinkHub'
+  name: 'internalPrivateDNSZoneLinkHubVnet'
   parent: internalDNSZoneGroup
   location: 'Global'
   properties: {
@@ -57,12 +57,12 @@ resource internalDNSZoneLinkHub 'Microsoft.Network/privateDnsZones/virtualNetwor
 }
 
 resource internalDNSZoneLinkSpoke 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@2024-06-01' = {
-  name: 'internalPrivateDNSZoneLinkSpoke'
+  name: 'internalPrivateDNSZoneLinkSpokeVnet'
   parent: internalDNSZoneGroup
   location: 'Global'
   properties: {
     virtualNetwork: {
-      id: hubVnetExisting.id
+      id: spokeVnetExisting.id
     }
     registrationEnabled: true
   }
