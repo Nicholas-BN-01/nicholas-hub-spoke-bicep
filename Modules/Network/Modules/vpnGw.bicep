@@ -69,6 +69,7 @@ resource vpnGateway 'Microsoft.Network/virtualNetworkGateways@2024-05-01' = {
       vpnAuthenticationTypes: [
         'AAD'
       ]
+      #disable-next-line no-hardcoded-env-urls
       aadTenant: 'https://login.microsoftonline.com/${tenantID}/'
       aadAudience: 'c632b3df-fb67-4d84-bdcf-b95ad541b5c8'
       aadIssuer: 'https://sts.windows.net/${tenantID}/'

@@ -22,3 +22,27 @@ module networkDeploy 'Modules/Network/network-deploy.bicep' = {
     networkConfiguration: networkConfiguration
   }
 }
+
+module dnsDeploy 'Modules/Dns/privateDnsZones.bicep' = {
+  scope: resourceGroup
+  name: 'dns-deploy'
+  dependsOn: [
+    networkDeploy
+  ]
+  params: {
+    resourceNames: resourceNames
+  }
+}
+
+module managementDeploy 'Modules/Management/misc-deploy.bicep' = {
+  scope: resourceGroup
+  name: 'management-deploy'
+  dependsOn: [
+    networkDeploy
+  ]
+  params: {
+    resourceNames: resourceNames
+    resourceLocation: resourceLocation
+    filePrivateDnsZoneID: dnsDeploy.outputs.filePrivateDNSZoneID
+  }
+}

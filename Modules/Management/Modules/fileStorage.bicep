@@ -1,5 +1,6 @@
 param resourceNames object
 param resourceLocation string
+param filePrivateDNSZoneID string
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   name: resourceNames.management.storageAccount
@@ -51,4 +52,17 @@ resource filePrivateEndpoint 'Microsoft.Network/privateEndpoints@2024-05-01' = {
   }
 }
 
-
+resource filePrivateDNSZoneGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneGroups@2024-05-01' = {
+  name: 'filePrivateDNSZoneGroup'
+  parent: filePrivateEndpoint
+  properties: {
+    privateDnsZoneConfigs: [
+      {
+        name: filePrivateEndpoint.name
+        properties: {
+          privateDnsZoneId: filePrivateDNSZoneID
+        }
+      }
+    ]
+  }
+}
