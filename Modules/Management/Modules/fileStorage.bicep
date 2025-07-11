@@ -17,9 +17,11 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   }
 }
 
-resource fileServices 'Microsoft.Storage/storageAccounts/fileServices@2023-05-01' = {
-  parent: storageAccount
-  name: 'default'
+resource fileServices 'Microsoft.Storage/storageAccounts/fileServices/shares@2023-05-01' = {
+  name: '${storageAccount.name}/default/spoke-files'
+  properties: {
+    accessTier: 'Hot'
+  }
 }
 
 resource spokeNetworkExisting 'Microsoft.Network/virtualNetworks@2024-05-01' existing = {
