@@ -42,6 +42,7 @@ param networkConfiguration = {
       azureBastionSubnet: '10.0.1.128/26'
       azureGatewaySubnet: '10.0.2.0/24'
       azureVMSubnet: '10.0.3.0/24'
+      azureDNSSubnet: '10.0.4.0/24'
     }
   }
   spokeNetwork: {
@@ -61,6 +62,7 @@ param networkConfiguration = {
     AKSAPIServer: '10.10.1.4'
     AKSNode1: '10.10.1.5'
     AKSLoadBalancer1: '10.10.1.6'
+    dnsVM: '10.0.4.4'
   }
 }
 
@@ -88,7 +90,6 @@ param virtualMachineGlobals = {
 param virtualMachineProperties = {
   hubVm: {
     name: 'hub-vm'
-    vmSize: 'Standard_D2s_v5'
     vmSubnet: 'VMSubnet'
     vmPrivateIPAddress: networkConfiguration.staticIPAddresses.hubVM
   }
@@ -96,6 +97,11 @@ param virtualMachineProperties = {
     name: 'test-vm'
     vmSubnet: 'TestSubnet'
     vmPrivateIPAddress: networkConfiguration.staticIPAddresses.testVM
+  }
+  dnsForwarder: {
+    name: 'dns-vm'
+    vmSubnet: 'DnsSubnet'
+    vmPrivateIPAddress: networkConfiguration.staticIPAddresses.dnsVM
   }
 }
 

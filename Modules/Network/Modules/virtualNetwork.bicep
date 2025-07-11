@@ -49,6 +49,12 @@ resource hubVnetDeploy 'Microsoft.Network/virtualNetworks@2024-05-01' = {
           }
         }
       }
+      {
+        name: 'DNSSubnet'
+        properties: {
+          addressPrefix: networkConfiguration.hubNetwork.subnets.azureDNSSubnet
+        }
+      }
     ]
   }
 }
