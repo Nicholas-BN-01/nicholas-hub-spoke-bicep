@@ -25,6 +25,10 @@ param resourceNames = {
     vpnPublicIP: 'vpn-ip-${azureRgSuffix}'
     vpnGateway: 'vpn-${azureRgSuffix}'
   }
+  management: {
+    storageAccount: 'sa-${azureRgSuffix}'
+    filePrivateEndpoint: 'file-pe-${azureRgSuffix}'
+  }
 }
 
 param networkConfiguration = {
