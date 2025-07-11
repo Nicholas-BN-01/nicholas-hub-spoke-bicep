@@ -65,12 +65,12 @@ module azureFirewallDeploy 'Modules/afw.bicep' = {
     resourceNames: resourceNames
   }
 }
-/*
+
 module azureVPNGatewayDeploy 'Modules/vpnGw.bicep' = {
   name: 'azureVPNGateway-Deploy'
   params: {
     resourceLocation: resourceLocation
-    vNetId: virtualNetwork.outputs.hubVnetID
+    resourceNames: resourceNames
   }
 }
-*/
+
