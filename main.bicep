@@ -8,12 +8,17 @@ param networkConfiguration object
 //param aksConfig object
 //param storageConfig object
 
-resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-11-01' = {
+var deployNetwork = false
+var deployDns = false
+var deployMng = true
+
+resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-11-01' = if (deployNetwork) {
   name: 'nicholas-hub-spoke-bicep'
   location: resourceLocation
 }
 
-module networkDeploy 'Modules/Network/network-deploy.bicep' = {
+
+module networkDeploy 'Modules/Network/network-deploy.bicep' = if (deployDns) {
   scope: resourceGroup
   name: 'network-deploy'
   params: {
@@ -23,7 +28,7 @@ module networkDeploy 'Modules/Network/network-deploy.bicep' = {
   }
 }
 
-module dnsDeploy 'Modules/Dns/privateDnsZones.bicep' = {
+module dnsDeploy 'Modules/Dns/privateDnsZones.bicep' = if (deployMng) {
   scope: resourceGroup
   name: 'dns-deploy'
   dependsOn: [
