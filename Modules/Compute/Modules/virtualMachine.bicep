@@ -44,6 +44,11 @@ resource testVMSubnetExisting 'Microsoft.Network/virtualNetworks/subnets@2024-05
   name: 'TestSubnet'
 }
 
+resource DNSVmSubnetExisting 'Microsoft.Network/virtualNetworks/subnets@2024-05-01' existing = {
+  parent: hubVnetExisting
+  name: 'DNSSubnet'
+}
+
 resource networkInterfaceCard 'Microsoft.Network/networkInterfaces@2024-05-01' = {
   name: 'nic-${vmName}'
   location: resourceLocation
@@ -54,7 +59,7 @@ resource networkInterfaceCard 'Microsoft.Network/networkInterfaces@2024-05-01' =
         name: 'ipconfig1'
         properties: {
           subnet: {
-            id: (vmName == 'hub-vm') ? hubVMSubnetExisting.id : testVMSubnetExisting.id
+            id: (vmName == 'hub-vm') ? hubVMSubnetExisting.id : (vmName == 'test-vm') ? testVMSubnetExisting.id : DNSVmSubnetExisting.id
           }
           privateIPAllocationMethod: 'Static'
           privateIPAddressVersion: 'IPv4'
