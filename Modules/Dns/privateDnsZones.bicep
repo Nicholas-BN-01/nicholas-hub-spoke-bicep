@@ -38,4 +38,34 @@ resource filePrivateDNSZoneLinkSpoke 'Microsoft.Network/privateDnsZones/virtualN
   }
 }
 
+resource internalDNSZoneGroup 'Microsoft.Network/privateDnsZones@2024-06-01' = {
+  #disable-next-line no-hardcoded-env-urls
+  name: 'nicholas.internal'
+  location: 'Global'
+}
+
+resource internalDNSZoneLinkHub 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@2024-06-01' = {
+  name: 'internalPrivateDNSZoneLinkHub'
+  parent: internalDNSZoneGroup
+  location: 'Global'
+  properties: {
+    virtualNetwork: {
+      id: hubVnetExisting.id
+    }
+    registrationEnabled: true
+  }
+}
+
+resource internalDNSZoneLinkSpoke 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@2024-06-01' = {
+  name: 'internalPrivateDNSZoneLinkSpoke'
+  parent: internalDNSZoneGroup
+  location: 'Global'
+  properties: {
+    virtualNetwork: {
+      id: hubVnetExisting.id
+    }
+    registrationEnabled: true
+  }
+}
+
 output filePrivateDNSZoneID string = filePrivateDNSZone.id
