@@ -1,0 +1,11 @@
+sudo apt update
+sudo apt install dnsmasq
+sudo systemctl stop systemd.resolved
+sudo rm -rf /etc/resolv.conf
+sudo nano /etc/resolv.conf
+--> Add nameservers
+
+sudo nano /etc/hosts
+--> Add 127.0.0.1 dns-vm
+
+sudo systemctl restart dnsmasq.service
