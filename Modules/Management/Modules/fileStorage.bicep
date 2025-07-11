@@ -5,7 +5,7 @@ param filePrivateDNSZoneID string
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   name: replace(toLower(substring(resourceNames.management.storageAccount, 0, min(length(resourceNames.management.storageAccount), 24))), '-', '')
   location: resourceLocation
-  kind: 'FileStorage'
+  kind: 'StorageV2'
   sku: {
     name: 'Standard_LRS'
   }
