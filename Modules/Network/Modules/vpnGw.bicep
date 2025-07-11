@@ -9,7 +9,7 @@ resource hubNetworkExisting 'Microsoft.Network/virtualNetworks@2024-05-01' exist
 
 resource vpnSubnetExisting 'Microsoft.Network/virtualNetworks/subnets@2024-05-01' existing = {
   parent: hubNetworkExisting
-  name: 'azureGatewaySubnet'
+  name: 'GatewaySubnet'
 }
 
 resource vpnPublicIP 'Microsoft.Network/publicIPAddresses@2024-05-01' = {
