@@ -8,17 +8,18 @@ param virtualMachineProperties object
 //param aksConfig object
 //param storageConfig object
 
-var deployNetwork = false
-var deployDns = false
+var deployNetwork = true
+var deployDns = true
 var deployMng = true
+var deployCompute = true
 
-resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-11-01' = if (deployNetwork) {
+resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-11-01' = {
   name: 'nicholas-hub-spoke-bicep'
   location: resourceLocation
 }
 
 
-module networkDeploy 'Modules/Network/network-deploy.bicep' = if (deployDns) {
+module networkDeploy 'Modules/Network/network-deploy.bicep' = if (deployNetwork) {
   scope: resourceGroup
   name: 'network-deploy'
   params: {
@@ -28,7 +29,7 @@ module networkDeploy 'Modules/Network/network-deploy.bicep' = if (deployDns) {
   }
 }
 
-module dnsDeploy 'Modules/Dns/privateDnsZones.bicep' = if (deployMng) {
+module dnsDeploy 'Modules/Dns/privateDnsZones.bicep' = if (deployDns) {
   scope: resourceGroup
   name: 'dns-deploy'
   dependsOn: [
@@ -39,7 +40,7 @@ module dnsDeploy 'Modules/Dns/privateDnsZones.bicep' = if (deployMng) {
   }
 }
 
-module managementDeploy 'Modules/Management/misc-deploy.bicep' = {
+module managementDeploy 'Modules/Management/misc-deploy.bicep' = if (deployMng) {
   scope: resourceGroup
   name: 'management-deploy'
   dependsOn: [
@@ -52,7 +53,7 @@ module managementDeploy 'Modules/Management/misc-deploy.bicep' = {
   }
 }
 
-module computeDeploy 'Modules/Compute/compute-deploy.bicep' = {
+module computeDeploy 'Modules/Compute/compute-deploy.bicep' = if (deployCompute) {
   scope: resourceGroup
   name: 'compute-deploy'
   dependsOn: [

@@ -12,6 +12,12 @@ resource hubVnetDeploy 'Microsoft.Network/virtualNetworks@2024-05-01' = {
     addressSpace: {
       addressPrefixes: networkConfiguration.hubNetwork.addressSpaces
     }
+    dhcpOptions: {
+      dnsServers: [
+        '10.0.4.4'
+        '168.63.129.16'
+      ]
+    }
     subnets: [
       {
         name: 'AzureBastionSubnet'
