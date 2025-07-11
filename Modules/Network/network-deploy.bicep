@@ -2,14 +2,6 @@ param resourceNames object
 param resourceLocation string
 param networkConfiguration object
 
-module azureFirewallPolicy 'Modules/afw-policy.bicep' = {
-  name: 'azureFirewallPolicy-Deploy'
-  params: {
-    resourceLocation: resourceLocation
-    resourceNames: resourceNames
-  }
-}
-
 module routeTable 'Modules/routeTable.bicep' = {
   name: 'routeTable-Deploy'
   params: {
@@ -61,6 +53,18 @@ module azureFirewallDeploy 'Modules/afw.bicep' = {
   ]
   params: {
     azureFirewallPolicyId: azureFirewallPolicy.outputs.azureFirewallPolicyID
+    resourceLocation: resourceLocation
+    resourceNames: resourceNames
+  }
+}
+
+module azureFirewallPolicy 'Modules/afw-policy.bicep' = {
+  name: 'azureFirewallPolicy-Deploy'
+  dependsOn: [
+    virtualNetwork
+    routeTable
+  ]
+  params: {
     resourceLocation: resourceLocation
     resourceNames: resourceNames
   }
