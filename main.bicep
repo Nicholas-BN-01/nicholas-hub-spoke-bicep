@@ -3,8 +3,8 @@ targetScope = 'subscription'
 param resourceNames object
 param resourceLocation string
 param networkConfiguration object
-//param virtualMachineGlobals object
-//param virtualMachineProperties object
+param virtualMachineGlobals object
+param virtualMachineProperties object
 //param aksConfig object
 //param storageConfig object
 

@@ -63,7 +63,7 @@ param networkConfiguration = {
     AKSLoadBalancer1: '10.10.1.6'
   }
 }
-/*
+
 param virtualMachineGlobals = {
   adminUsername: 'linuxadmin'
   adminPassword: 'Nicholas01!'
@@ -74,9 +74,28 @@ param virtualMachineGlobals = {
     sku: '22_04-lts-gen2'
     version: 'latest'
   }
+  vmSize: 'Standard_D2s_v5'
+  vmZone: '1'
+  sqlEnabled: false 
+  backupEnabled: false 
+  sqlServerLicense: ''
+  osDisk: {
+    diskSize: 30
+    diskType: 'Standard_LRS'
+  }
 }
 
 param virtualMachineProperties = {
-
+  hubVm: {
+    name: 'hub-vm'
+    vmSize: 'Standard_D2s_v5'
+    vmSubnet: 'VMSubnet'
+    vmPrivateIPAddress: networkConfiguration.staticIPAddresses.hubVM
+  }
+  testVm: {
+    name: 'test-vm'
+    vmSubnet: 'TestSubnet'
+    vmPrivateIPAddress: networkConfiguration.staticIPAddresses.testVM
+  }
 }
-*/
+
