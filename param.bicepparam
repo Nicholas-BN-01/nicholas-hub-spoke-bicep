@@ -22,6 +22,8 @@ param resourceNames = {
     internetRouteTable: 'iroute-${azureRgSuffix}'
     hubPeering: 'hub-peering-${azureRgSuffix}'
     spokePeering: 'spoke-peering-${azureRgSuffix}'
+    vpnPublicIP: 'vpn-ip-${azureRgSuffix}'
+    vpnGateway: 'vpn-${azureRgSuffix}'
   }
 }
 
