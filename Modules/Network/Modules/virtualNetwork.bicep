@@ -32,7 +32,7 @@ resource hubVnetDeploy 'Microsoft.Network/virtualNetworks@2024-05-01' = {
         }
       }
       {
-        name: 'VPNGatewaySubnet'
+        name: 'GatewaySubnet'
         properties: {
           addressPrefix: networkConfiguration.hubNetwork.subnets.azureGatewaySubnet
           routeTable: {
