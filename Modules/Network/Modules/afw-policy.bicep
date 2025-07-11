@@ -47,6 +47,22 @@ resource allowNetworkCollectionGroup 'Microsoft.Network/firewallPolicies/ruleCol
               '*'
             ]
           }
+          {
+            ruleType: 'NetworkRule'
+            name: 'Allow Spoke-VPN-Return'
+            ipProtocols: [
+              'Any'
+            ]
+            sourceAddresses: [
+              '10.10.0.0/16'
+            ]
+            destinationAddresses: [
+              '172.16.0.0/24'
+            ]
+            destinationPorts: [
+              '*'
+            ]
+          }
         ]
       }
     ]
