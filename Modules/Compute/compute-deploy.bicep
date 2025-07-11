@@ -8,8 +8,8 @@ module virtualMachinesDeploy 'Modules/virtualMachine.bicep' = [
   for virtualMachine in items(virtualMachineProperties): {
     name: '${virtualMachineProperties[virtualMachine.key].name}-Deploy'
     params: {
-      location: resourceLocation
       resourceNames: resourceNames
+      resourceLocation: resourceLocation
       vmName: virtualMachineProperties[virtualMachine.key].name
       vmSize: virtualMachineGlobals.vmSize
       vmZone: virtualMachineGlobals.vmZone
@@ -18,7 +18,6 @@ module virtualMachinesDeploy 'Modules/virtualMachine.bicep' = [
       osVersion: virtualMachineGlobals.osVersion
       osDiskSize: virtualMachineGlobals.osDisk.diskSize
       osDiskType: virtualMachineGlobals.osDisk.diskType
-      subnetName: virtualMachineProperties[virtualMachine.key].vmSubnet
       vmPrivateIPAddress: virtualMachineProperties[virtualMachine.key].vmPrivateIPAddress
       backupEnabled: virtualMachineGlobals.backupEnabled
       sqlEnabled: virtualMachineGlobals.sqlEnabled

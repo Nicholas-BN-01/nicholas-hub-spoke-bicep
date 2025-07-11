@@ -51,3 +51,18 @@ module managementDeploy 'Modules/Management/misc-deploy.bicep' = {
     filePrivateDnsZoneID: dnsDeploy.outputs.filePrivateDNSZoneID
   }
 }
+
+module computeDeploy 'Modules/Compute/compute-deploy.bicep' = {
+  scope: resourceGroup
+  name: 'compute-deploy'
+  dependsOn: [
+    networkDeploy
+    managementDeploy
+  ]
+  params: {
+    resourceNames: resourceNames
+    resourceLocation: resourceLocation
+    virtualMachineGlobals: virtualMachineGlobals
+    virtualMachineProperties: virtualMachineProperties
+  }
+}
