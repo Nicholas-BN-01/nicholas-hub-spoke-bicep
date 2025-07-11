@@ -36,12 +36,12 @@ resource spokeVnetExisting 'Microsoft.Network/virtualNetworks@2024-05-01' existi
 
 resource hubVMSubnetExisting 'Microsoft.Network/virtualNetworks/subnets@2024-05-01' existing = {
   parent: hubVnetExisting
-  name: 'azureVMSubnet'
+  name: 'VMSubnet'
 }
 
 resource testVMSubnetExisting 'Microsoft.Network/virtualNetworks/subnets@2024-05-01' existing = {
   parent: spokeVnetExisting
-  name: 'azureTestSubnet'
+  name: 'TestSubnet'
 }
 
 resource networkInterfaceCard 'Microsoft.Network/networkInterfaces@2024-05-01' = {
@@ -53,7 +53,9 @@ resource networkInterfaceCard 'Microsoft.Network/networkInterfaces@2024-05-01' =
       {
         name: 'ipconfig1'
         properties: {
-          subnet: (vmName == 'hub-vm') ? hubVMSubnetExisting : testVMSubnetExisting
+          subnet: {
+            id: (vmName == 'hub-vm') ? hubVMSubnetExisting.id : testVMSubnetExisting.id
+          }
           privateIPAllocationMethod: 'Static'
           privateIPAddressVersion: 'IPv4'
           privateIPAddress: vmPrivateIPAddress
