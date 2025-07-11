@@ -66,6 +66,55 @@ resource networkInterfaceCard 'Microsoft.Network/networkInterfaces@2024-05-01' =
   }
 }
 
+resource vmNSG 'Microsoft.Network/networkSecurityGroups@2024-07-01' = if (vmName == 'hub-vm') {
+  location: resourceLocation
+  name: 'nsg-${vmName}'
+  properties: {
+    flushConnection: true
+    securityRules: [
+      {
+        name: 'Allow-SSH-VPN'
+        properties: {
+          access: 'Allow'
+          destinationAddressPrefix: vmPrivateIPAddress
+          destinationPortRange: '22'
+          direction: 'Inbound'
+          priority: 120
+          protocol: '*'
+          sourceAddressPrefix: '172.16.0.0/24'
+          sourcePortRange: '*'
+        }
+      }
+      {
+        name: 'Deny-AKS-Out'
+        properties: {
+          access: 'Deny'
+          destinationAddressPrefix: '10.10.1.0/24'
+          destinationPortRange: '*'
+          direction: 'Outbound'
+          priority: 110
+          protocol: '*'
+          sourceAddressPrefix: vmPrivateIPAddress
+          sourcePortRange: '*'
+        }
+      }
+      {
+        name: 'Deny-Files-Out'
+        properties: {
+          access: 'Deny'
+          destinationAddressPrefix: '10.10.2.0/24'
+          destinationPortRange: '*'
+          direction: 'Outbound'
+          priority: 100
+          protocol: '*'
+          sourceAddressPrefix: vmPrivateIPAddress
+          sourcePortRange: '*'
+        }
+      }
+    ]
+  }
+}
+
 resource vm 'Microsoft.Compute/virtualMachines@2024-07-01' = {
   name: vmName
   location: resourceLocation
