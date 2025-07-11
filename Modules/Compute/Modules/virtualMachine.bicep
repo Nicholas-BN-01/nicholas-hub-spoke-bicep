@@ -63,6 +63,7 @@ resource networkInterfaceCard 'Microsoft.Network/networkInterfaces@2024-05-01' =
         }
       }
     ]
+    networkSecurityGroup: (vmName == 'hub-vm') ? { id: vmNSG.id } : null
   }
 }
 
