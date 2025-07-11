@@ -21,7 +21,7 @@ resource hubSpokePeering 'Microsoft.Network/virtualNetworks/virtualNetworkPeerin
   properties: {
     allowVirtualNetworkAccess: true
     allowForwardedTraffic: true
-    allowGatewayTransit: false // true when deploying gateway
+    allowGatewayTransit: true // true when deploying gateway
     useRemoteGateways: false
     remoteVirtualNetwork: {
       id: spokeVnetID
@@ -36,7 +36,7 @@ resource spokeHubPeering 'Microsoft.Network/virtualNetworks/virtualNetworkPeerin
     allowVirtualNetworkAccess: true
     allowForwardedTraffic: true
     allowGatewayTransit: false
-    useRemoteGateways: false // true when deploying gateway
+    useRemoteGateways: true // true when deploying gateway
     remoteVirtualNetwork: {
       id: hubVnetID
     }
