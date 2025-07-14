@@ -75,6 +75,9 @@ module azureFirewallPolicy 'Modules/afw-policy.bicep' = {
 
 module azureVPNGatewayDeploy 'Modules/vpnGw.bicep' = {
   name: 'azureVPNGateway-Deploy'
+  dependsOn: [
+    virtualNetwork
+  ]
   params: {
     resourceLocation: resourceLocation
     resourceNames: resourceNames
