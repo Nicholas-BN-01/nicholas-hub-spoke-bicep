@@ -48,6 +48,10 @@ resource firewallManagementPublicIP 'Microsoft.Network/publicIPAddresses@2024-05
 resource azureFirewall 'Microsoft.Network/azureFirewalls@2024-05-01' = {
   name: resourceNames.network.azureFirewall
   location: resourceLocation
+  dependsOn: [
+    azureFirewallSubnet
+    azureFirewallManagementSubnet
+  ]
   properties: {
     sku: {
       tier: 'Basic'
@@ -68,6 +72,17 @@ resource azureFirewall 'Microsoft.Network/azureFirewalls@2024-05-01' = {
         }
       }
     ]
+    managementIpConfiguration: {
+      name: 'AzureFirewallManagementIP'
+      properties: {
+        publicIPAddress: {
+          id: firewallManagementPublicIP.id
+        }
+        subnet: {
+          id: azureFirewallManagementSubnet.id
+        }
+      }
+    }
   }
 }
 
