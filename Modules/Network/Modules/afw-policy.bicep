@@ -43,7 +43,7 @@ resource allowNetworkCollectionGroup 'Microsoft.Network/firewallPolicies/ruleCol
               '10.10.3.0/24'
             ]
             destinationAddresses: [
-              '*'
+              '0.0.0.0/0'
             ]
             destinationPorts: [
               '*'
