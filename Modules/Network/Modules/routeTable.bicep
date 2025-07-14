@@ -22,26 +22,7 @@ resource routeTable 'Microsoft.Network/routeTables@2024-05-01' = {
         name: 'VPN-Clients-Return'
         properties: {
           addressPrefix: '172.16.0.0/24'
-          nextHopType: 'VirtualAppliance'
-          nextHopIpAddress: azureFirewallPrivateIP
-        }
-      }
-    ]
-  }
-}
-
-resource gatewayRouteTable 'Microsoft.Network/routeTables@2024-05-01' = {
-  name: 'vpn-route'
-  location: resourceLocation
-  properties: {
-    disableBgpRoutePropagation: false
-    routes: [
-      {
-        name: 'VPN-to-Internal'
-        properties: {
-          addressPrefix: '172.16.0.0/24'
-          nextHopType: 'VirtualAppliance'
-          nextHopIpAddress: azureFirewallPrivateIP
+          nextHopType: 'VirtualNetworkGateway'
         }
       }
     ]
@@ -75,5 +56,4 @@ resource vmRouteTable 'Microsoft.Network/routeTables@2024-05-01' = {
 }
 
 output routeTableID string = routeTable.id
-output gatewayRouteTableID string = gatewayRouteTable.id
 output vmRouteTableID string = vmRouteTable.id

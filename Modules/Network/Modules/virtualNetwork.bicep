@@ -2,7 +2,6 @@ param resourceNames object
 param resourceLocation string
 param networkConfiguration object
 param routeTableID string
-param gatewayRouteTableID string
 param vmRouteTableID string
 
 resource hubVnetDeploy 'Microsoft.Network/virtualNetworks@2024-05-01' = {
@@ -41,9 +40,6 @@ resource hubVnetDeploy 'Microsoft.Network/virtualNetworks@2024-05-01' = {
         name: 'GatewaySubnet'
         properties: {
           addressPrefix: networkConfiguration.hubNetwork.subnets.azureGatewaySubnet
-          routeTable: {
-            id: gatewayRouteTableID
-          }
         }
       }
       {

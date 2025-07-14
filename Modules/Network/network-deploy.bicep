@@ -18,7 +18,6 @@ module virtualNetwork 'Modules/virtualNetwork.bicep' = {
     resourceLocation: resourceLocation
     resourceNames: resourceNames
     routeTableID: routeTable.outputs.routeTableID
-    gatewayRouteTableID: routeTable.outputs.gatewayRouteTableID
     vmRouteTableID: routeTable.outputs.vmRouteTableID
   }
 }
