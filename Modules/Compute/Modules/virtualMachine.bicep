@@ -17,6 +17,10 @@ param backupEnabled bool
 param sqlEnabled bool
 param sqlServerLicense string
 
+var vpnRangeIP = '172.16.0.0/24'
+var hubRangeIP = '10.0.0.0/16'
+var spokeRangeIP = '10.10.0.0/16'
+
 var imageReference = {
   'Ubuntu-2204': {
     publisher: 'Canonical'
@@ -25,6 +29,17 @@ var imageReference = {
     version: 'latest'
   }
 }
+
+var dnsScript = base64('''
+  #!/bin/bash
+  apt update
+  apt install -y dnsmasq
+
+  echo "server 168.63.129.16" >> /etc/dnsmasq.conf
+
+  systemctl restart dnsmasq
+  systemctl enable dnsmasq
+''')
 
 resource hubVnetExisting 'Microsoft.Network/virtualNetworks@2024-05-01' existing = {
   name: resourceNames.network.hubNetwork
@@ -68,7 +83,7 @@ resource networkInterfaceCard 'Microsoft.Network/networkInterfaces@2024-05-01' =
         }
       }
     ]
-    networkSecurityGroup: (vmName == 'hub-vm') ? { id: vmNSG.id } : null
+    networkSecurityGroup: (vmName == 'hub-vm') ? { id: vmNSG.id } : (vmName == 'dns-vm') ? { id: dnsNsg.id } : null
   }
 }
 
@@ -87,7 +102,7 @@ resource vmNSG 'Microsoft.Network/networkSecurityGroups@2024-07-01' = if (vmName
           direction: 'Inbound'
           priority: 120
           protocol: '*'
-          sourceAddressPrefix: '172.16.0.0/24'
+          sourceAddressPrefix: vpnRangeIP
           sourcePortRange: '*'
         }
       }
@@ -114,6 +129,68 @@ resource vmNSG 'Microsoft.Network/networkSecurityGroups@2024-07-01' = if (vmName
           priority: 100
           protocol: '*'
           sourceAddressPrefix: vmPrivateIPAddress
+          sourcePortRange: '*'
+        }
+      }
+    ]
+  }
+}
+
+resource dnsNsg 'Microsoft.Network/networkSecurityGroups@2024-05-01' = {
+  name: 'nsg-${vmName}'
+  location: resourceLocation
+  properties: {
+    flushConnection: false
+    securityRules: [
+      {
+        name: 'Allow-SSH-VPN'
+        properties: {
+          access: 'Allow'
+          destinationAddressPrefix: vmPrivateIPAddress
+          destinationPortRange: '22'
+          direction: 'Inbound'
+          priority: 100
+          protocol: '*'
+          sourceAddressPrefix: vpnRangeIP
+          sourcePortRange: '*'
+        }
+      }
+      {
+        name: 'Allow-DNS-Hub-Inbound'
+        properties: {
+          access: 'Allow'
+          destinationAddressPrefix: vmPrivateIPAddress
+          destinationPortRange: '53'
+          direction: 'Inbound'
+          priority: 110
+          protocol: '*'
+          sourceAddressPrefix: hubRangeIP
+          sourcePortRange: '*'
+        }
+      }
+      {
+        name: 'Allow-DNS-Spoke-Inbound'
+        properties: {
+          access: 'Allow'
+          destinationAddressPrefix: vmPrivateIPAddress
+          destinationPortRange: '53'
+          direction: 'Inbound'
+          priority: 120
+          protocol: '*'
+          sourceAddressPrefix: spokeRangeIP
+          sourcePortRange: '*'
+        }
+      }
+      {
+        name: 'Allow-DNS-VPN-Inbound'
+        properties: {
+          access: 'Allow'
+          destinationAddressPrefix: vmPrivateIPAddress
+          destinationPortRange: '53'
+          direction: 'Inbound'
+          priority: 130
+          protocol: '*'
+          sourceAddressPrefix: vpnRangeIP
           sourcePortRange: '*'
         }
       }
@@ -155,6 +232,7 @@ resource vm 'Microsoft.Compute/virtualMachines@2024-07-01' = {
       computerName: vmName
       adminUsername: adminUsername
       adminPassword: adminPassword
+      customData: dnsScript
     }
   }
 }
