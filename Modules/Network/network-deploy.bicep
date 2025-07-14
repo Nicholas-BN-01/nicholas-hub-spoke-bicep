@@ -48,19 +48,6 @@ module azureBastionDeploy 'Modules/bastion.bicep' = {
   }
 }
 
-module azureFirewallDeploy 'Modules/afw.bicep' = {
-  name: 'azureFirewall-Deploy'
-  dependsOn: [
-    virtualNetwork
-    routeTable
-  ]
-  params: {
-    azureFirewallPolicyId: azureFirewallPolicy.outputs.azureFirewallPolicyID
-    resourceLocation: resourceLocation
-    resourceNames: resourceNames
-  }
-}
-
 module azureFirewallPolicy 'Modules/afw-policy.bicep' = {
   name: 'azureFirewallPolicy-Deploy'
   dependsOn: [
@@ -70,6 +57,28 @@ module azureFirewallPolicy 'Modules/afw-policy.bicep' = {
   params: {
     resourceLocation: resourceLocation
     resourceNames: resourceNames
+  }
+}
+
+module azureFirewallDeploy 'Modules/afw.bicep' = {
+  name: 'azureFirewall-Deploy'
+  dependsOn: [
+    virtualNetwork
+    routeTable
+    azureFirewallPolicy
+  ]
+  params: {
+    resourceLocation: resourceLocation
+    resourceNames: resourceNames
+  }
+}
+
+module azureFirewallPolicyUpdate 'Modules/afw-policy-update.bicep' = {
+  name: 'azureFirewallPolicyUpdate'
+  params: {
+    azureFirewallName: azureFirewallDeploy.outputs.azureFirewallName
+    policyID: azureFirewallPolicy.outputs.azureFirewallPolicyID
+    resourceLocation: resourceLocation
   }
 }
 

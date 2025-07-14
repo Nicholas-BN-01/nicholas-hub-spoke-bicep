@@ -1,8 +1,6 @@
 param resourceNames object
 param resourceLocation string
 
-param azureFirewallPolicyId string
-
 resource hubVnetExisting 'Microsoft.Network/virtualNetworks@2024-05-01' existing = {
   name: resourceNames.network.hubNetwork
 }
@@ -56,9 +54,6 @@ resource azureFirewall 'Microsoft.Network/azureFirewalls@2024-05-01' = {
     sku: {
       tier: 'Basic'
     }
-    firewallPolicy: {
-      id: azureFirewallPolicyId
-    }
     ipConfigurations: [
       {
         name: 'AzureFirewallPublicIP'
@@ -87,3 +82,4 @@ resource azureFirewall 'Microsoft.Network/azureFirewalls@2024-05-01' = {
 }
 
 output azureFirewallID string = azureFirewall.id
+output azureFirewallName string = azureFirewall.name

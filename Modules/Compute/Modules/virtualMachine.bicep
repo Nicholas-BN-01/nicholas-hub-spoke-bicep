@@ -32,13 +32,24 @@ var imageReference = {
 
 var dnsScript = base64('''
   #!/bin/bash
-  apt update
-  apt install -y dnsmasq
+  sudo apt update
 
-  echo "server 168.63.129.16" >> /etc/dnsmasq.conf
+  systemctl enable systemd-resolved
+  systemctl start systemd-resolved
 
-  systemctl restart dnsmasq
-  systemctl enable dnsmasq
+  cat <<EOF > /etc/netplan/50-cloud-init.yaml
+  network:
+    version: 2
+    ethernets:
+      eth0:
+        dhcp4: true
+        nameservers:
+          addresses: [168.63.129.16]
+  EOF
+
+  netplan apply
+
+  systemctl restart systemd-resolved
 ''')
 
 resource hubVnetExisting 'Microsoft.Network/virtualNetworks@2024-05-01' existing = {
