@@ -30,29 +30,6 @@ var imageReference = {
   }
 }
 
-var dnsScript = '''
-  #!/bin/bash
-  sudo apt update
-
-  systemctl enable systemd-resolved
-  systemctl start systemd-resolved
-
-  cat <<EOF > /etc/netplan/50-cloud-init.yaml
-  network:
-    version: 2
-    ethernets:
-      eth0:
-        dhcp4: true
-        nameservers:
-          addresses: [168.63.129.16]
-
-  EOF
-
-  netplan apply
-
-  systemctl restart systemd-resolved
-'''
-
 resource hubVnetExisting 'Microsoft.Network/virtualNetworks@2024-05-01' existing = {
   name: resourceNames.network.hubNetwork
 }
@@ -258,7 +235,7 @@ resource dnsVmCustomScriptExtension 'Microsoft.Compute/virtualMachines/extension
     typeHandlerVersion: '2.1'
     autoUpgradeMinorVersion: true
     settings: {
-      commandToExecute: 'echo base64(${dnsScript}) | base64 -d | bash'
+      commandToExecute: 'echo IyEvYmluL2Jhc2gKc3VkbyBhcHQgdXBkYXRlCgpzdWRvIHN5c3RlbWN0bCBlbmFibGUgc3lzdGVtZC1yZXNvbHZlZApzdWRvIHN5c3RlbWN0bCBzdGFydCBzeXN0ZW1kLXJlc29sdmVkCgpjYXQgPDxFT0YgPiAvZXRjL25ldHBsYW4vNTAtY2xvdWQtaW5pdC55YW1sCm5ldHdvcms6CnZlcnNpb246IDIKZXRoZXJuZXRzOgogICAgZXRoMDoKICAgIGRoY3A0OiB0cnVlCiAgICBuYW1lc2VydmVyczoKICAgICAgICBhZGRyZXNzZXM6IFsxNjguNjMuMTI5LjE2XQoKRU9GCgpzdWRvIG5ldHBsYW4gYXBwbHkKCnN1ZG8gc3lzdGVtY3RsIHJlc3RhcnQgc3lzdGVtZC1yZXNvbHZlZA== | base64 -d | bash'
     }
   }
 }
