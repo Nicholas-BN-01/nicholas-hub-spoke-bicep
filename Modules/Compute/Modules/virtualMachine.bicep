@@ -243,7 +243,21 @@ resource vm 'Microsoft.Compute/virtualMachines@2024-07-01' = {
       computerName: vmName
       adminUsername: adminUsername
       adminPassword: adminPassword
-      customData: dnsScript
+    }
+  }
+}
+
+resource dnsVmCustomScriptExtension 'Microsoft.Compute/virtualMachines/extensions@2024-07-01' = if (vmName == 'dns-vm') {
+  name: 'dnsScriptExtension'
+  parent: vm
+  location: resourceLocation
+  properties: {
+    publisher: 'Microsoft.Azure.Extensions'
+    type: 'CustomScript'
+    typeHandlerVersion: '2.1'
+    autoUpgradeMinorVersion: true
+    settings: {
+      commandToExecute: 'echo ${dnsScript} | base64 -d | bash'
     }
   }
 }
