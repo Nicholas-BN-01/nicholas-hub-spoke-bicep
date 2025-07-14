@@ -39,6 +39,8 @@ resource allowNetworkCollectionGroup 'Microsoft.Network/firewallPolicies/ruleCol
               '172.16.0.0/24'
               '10.10.1.0/24'
               '10.10.2.0/24'
+              '10.0.0.0/16'
+              '10.10.3.0/24'
             ]
             destinationAddresses: [
               '*'

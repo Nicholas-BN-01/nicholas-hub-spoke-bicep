@@ -10,7 +10,6 @@ Test VM
 DNS VM
 --> Allow inbound on port 53 * / VPN client on SSH
 --> Deny inbound *
---> Allow outbound on port 53 to *
 
 VPN Client
 --> Allow source VPN (Files on port 445)
