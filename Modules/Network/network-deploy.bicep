@@ -53,7 +53,6 @@ module azureFirewallPolicy 'Modules/afw-policy.bicep' = {
   dependsOn: [
     virtualNetwork
     routeTable
-    azureFirewallDeploy
   ]
   params: {
     resourceLocation: resourceLocation
@@ -70,15 +69,7 @@ module azureFirewallDeploy 'Modules/afw.bicep' = {
   params: {
     resourceLocation: resourceLocation
     resourceNames: resourceNames
-  }
-}
-
-module azureFirewallPolicyUpdate 'Modules/afw-policy-update.bicep' = {
-  name: 'azureFirewallPolicyUpdate'
-  params: {
-    azureFirewallName: azureFirewallDeploy.outputs.azureFirewallName
-    policyID: azureFirewallPolicy.outputs.azureFirewallPolicyID
-    resourceLocation: resourceLocation
+    azureFirewallPolicyID: azureFirewallPolicy.outputs.azureFirewallPolicyID
   }
 }
 
