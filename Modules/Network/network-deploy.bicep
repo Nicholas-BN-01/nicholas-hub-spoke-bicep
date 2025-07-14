@@ -25,6 +25,9 @@ module virtualNetwork 'Modules/virtualNetwork.bicep' = {
 
 module virtualNetworkPeerings 'Modules/vnet-peering.bicep' = {
   name: 'virtualNetworkPeerings-Deploy'
+  dependsOn: [
+    azureVPNGatewayDeploy
+  ]
   params: {
     resourceNames: resourceNames
     hubVnetID: virtualNetwork.outputs.hubVnetID
@@ -77,4 +80,3 @@ module azureVPNGatewayDeploy 'Modules/vpnGw.bicep' = {
     resourceNames: resourceNames
   }
 }
-

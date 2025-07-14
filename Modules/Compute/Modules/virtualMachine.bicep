@@ -136,7 +136,7 @@ resource vmNSG 'Microsoft.Network/networkSecurityGroups@2024-07-01' = if (vmName
   }
 }
 
-resource dnsNsg 'Microsoft.Network/networkSecurityGroups@2024-05-01' = {
+resource dnsNsg 'Microsoft.Network/networkSecurityGroups@2024-05-01' = if (vmName == 'dns-vm') {
   name: 'nsg-${vmName}'
   location: resourceLocation
   properties: {

@@ -3,8 +3,8 @@ using 'main.bicep'
 param resourceLocation = 'italynorth'
 
 var customerInfo = {
-  customerName: 'Nicholas'
-  projectName: 'Hub-Spoke-Test'
+  customerName: 'nicholas'
+  projectName: 'hub-spoke'
 }
 
 var azureRgSuffix = '${customerInfo.customerName}-${customerInfo.projectName}'
