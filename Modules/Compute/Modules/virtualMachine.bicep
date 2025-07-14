@@ -30,7 +30,7 @@ var imageReference = {
   }
 }
 
-var dnsScript = base64('''
+var dnsScript = '''
   #!/bin/bash
   sudo apt update
 
@@ -45,12 +45,13 @@ var dnsScript = base64('''
         dhcp4: true
         nameservers:
           addresses: [168.63.129.16]
+
   EOF
 
   netplan apply
 
   systemctl restart systemd-resolved
-''')
+'''
 
 resource hubVnetExisting 'Microsoft.Network/virtualNetworks@2024-05-01' existing = {
   name: resourceNames.network.hubNetwork
@@ -257,7 +258,7 @@ resource dnsVmCustomScriptExtension 'Microsoft.Compute/virtualMachines/extension
     typeHandlerVersion: '2.1'
     autoUpgradeMinorVersion: true
     settings: {
-      commandToExecute: 'echo ${dnsScript} | base64 -d | bash'
+      commandToExecute: 'echo base64(${dnsScript}) | base64 -d | bash'
     }
   }
 }
