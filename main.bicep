@@ -8,9 +8,9 @@ param virtualMachineProperties object
 //param aksConfig object
 //param storageConfig object
 
-var deployNetwork = true
-var deployDns = true
-var deployMng = true
+var deployNetwork = false
+var deployDns = false
+var deployMng = false
 var deployCompute = true
 
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-11-01' = {
