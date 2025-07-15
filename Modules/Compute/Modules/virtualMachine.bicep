@@ -252,14 +252,14 @@ resource dnsVmCustomScriptExtension 'Microsoft.Compute/virtualMachines/extension
 
         sudo apt install -y dnsmasq
 
-        sudo tee /etc/resolv.conf <<EOF
+        sudo tee /etc/dnsmasq.conf <<EOF2
           no-resolv
-          listen-address=127.0.0.1, 10.0.4.4
+          listen-address=127.0.0.1,10.0.4.4
           server=/privatelink.file.core.windows.net/168.63.129.16
           server=/nicholas.internal/168.63.129.16
           server=8.8.8.8
           server=1.1.1.1
-          EOF
+        EOF2
 
         sudo systemctl enable dnsmasq
         sudo systemctl restart dnsmasq
@@ -268,6 +268,7 @@ resource dnsVmCustomScriptExtension 'Microsoft.Compute/virtualMachines/extension
         echo "10.0.4.4 dns-vm" >> /etc/hosts
 
         echo "Dnsmasq configured and running"
+        EOF
         
         bash /tmp/configure_dns.sh"'''
     }
