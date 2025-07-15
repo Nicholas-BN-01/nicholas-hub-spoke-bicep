@@ -235,7 +235,7 @@ resource dnsVmCustomScriptExtension 'Microsoft.Compute/virtualMachines/extension
     typeHandlerVersion: '2.1'
     autoUpgradeMinorVersion: true
     settings: {
-      commandToExecute: 'echo IyEvYmluL2Jhc2gKc3VkbyBhcHQgdXBkYXRlCgpzdWRvIHN5c3RlbWN0bCBlbmFibGUgc3lzdGVtZC1yZXNvbHZlZApzdWRvIHN5c3RlbWN0bCBzdGFydCBzeXN0ZW1kLXJlc29sdmVkCgpjYXQgPDxFT0YgPiAvZXRjL25ldHBsYW4vNTAtY2xvdWQtaW5pdC55YW1sCm5ldHdvcms6CnZlcnNpb246IDIKZXRoZXJuZXRzOgogICAgZXRoMDoKICAgIGRoY3A0OiB0cnVlCiAgICBuYW1lc2VydmVyczoKICAgICAgICBhZGRyZXNzZXM6IFsxNjguNjMuMTI5LjE2XQoKRU9GCgpzdWRvIG5ldHBsYW4gYXBwbHkKCnN1ZG8gc3lzdGVtY3RsIHJlc3RhcnQgc3lzdGVtZC1yZXNvbHZlZA== | base64 -d | bash'
+      commandToExecute: 'bash configure_dns.sh'
     }
   }
 }
