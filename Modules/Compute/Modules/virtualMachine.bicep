@@ -235,31 +235,26 @@ resource dnsVmCustomScriptExtension 'Microsoft.Compute/virtualMachines/extension
     typeHandlerVersion: '2.1'
     autoUpgradeMinorVersion: true
     settings: {
-      commandToExecute: '''bash -c "
-        cat <<'EOF' > /tmp/configure_dns.sh
-        
-        #!/bin/bash
-
+      commandToExecute: '''
         sudo apt update
 
         sudo systemctl stop systemd-resolved
         sudo systemctl disable systemd-resolved
 
-        sudo rm -rf /etc/resolv.conf
         sudo rm -f /etc/resolv.conf
-
+    
+        echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
+        sudo apt install -y dnsmasq
         echo "nameserver 127.0.0.1" | sudo tee /etc/resolv.conf
 
-        sudo apt install -y dnsmasq
-
-        sudo tee /etc/dnsmasq.conf <<EOF2
-          no-resolv
-          listen-address=127.0.0.1,10.0.4.4
-          server=/privatelink.file.core.windows.net/168.63.129.16
-          server=/nicholas.internal/168.63.129.16
-          server=8.8.8.8
-          server=1.1.1.1
-        EOF2
+        sudo tee /etc/dnsmasq.conf <<EOF
+no-resolv
+listen-address=127.0.0.1,10.0.4.4
+server=/privatelink.file.core.windows.net/168.63.129.16
+server=/nicholas.internal/168.63.129.16
+server=8.8.8.8
+server=1.1.1.1
+EOF
 
         sudo systemctl enable dnsmasq
         sudo systemctl restart dnsmasq
@@ -268,11 +263,10 @@ resource dnsVmCustomScriptExtension 'Microsoft.Compute/virtualMachines/extension
         echo "10.0.4.4 dns-vm" >> /etc/hosts
 
         echo "Dnsmasq configured and running"
-        EOF
-        
-        bash /tmp/configure_dns.sh"'''
+      '''
     }
   }
 }
+
 
 output privateIPVmVnet string = networkInterfaceCard.properties.ipConfigurations[0].properties.privateIPAddress
