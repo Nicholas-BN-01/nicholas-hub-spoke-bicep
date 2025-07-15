@@ -237,26 +237,34 @@ resource dnsVmCustomScriptExtension 'Microsoft.Compute/virtualMachines/extension
     settings: {
       commandToExecute: '''bash -c "
         cat <<'EOF' > /tmp/configure_dns.sh
+        
         #!/bin/bash
 
-        sudo apt update
         sudo systemctl stop systemd-resolved
         sudo systemctl disable systemd-resolved
 
+        sudo rm -rf /etc/resolv.conf
+
+        echo "nameserver 127.0.0.1" > /etc/resolv.conf
+
+        sudo apt update
         sudo apt install -y dnsmasq
 
-        cat <<EOD > /etc/dnsmasq.conf
-            server=/privatelink.file.core.windows.net/168.63.129.16
-            server=/nicholas.internal/168.63.129.16
-            server=8.8.8.8
-            server=1.1.1.1
-            listen-address=127.0.0.1
-            listen-address=10.0.4.4
-        EOD
+        cat <<EOF > /etc/dnsmasq.conf
+          no-resolv
+          listen-address=127.0.0.1
+          server=/privatelink.file.core.windows.net/168.63.129.16
+          server=/nicholas.internal/168.63.129.16
+          server=8.8.8.8
+          server=1.1.1.1
+          EOF
 
-        sudo systemctl restart dnsmasq
         sudo systemctl enable dnsmasq
-        EOF
+        sudo systemctl restart dnsmasq
+
+        echo "127.0.0.1 dns-vm" >> /etc/hosts
+
+        echo "Dnsmasq configured and running"
         
         bash /tmp/configure_dns.sh"'''
     }
