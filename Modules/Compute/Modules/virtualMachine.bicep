@@ -244,15 +244,16 @@ resource dnsVmCustomScriptExtension 'Microsoft.Compute/virtualMachines/extension
         sudo systemctl disable systemd-resolved
 
         sudo rm -rf /etc/resolv.conf
+        sudo rm -f /etc/resolv.conf
 
-        echo "nameserver 127.0.0.1" > /etc/resolv.conf
+        echo "nameserver 127.0.0.1" | sudo tee /etc/resolv.conf
 
         sudo apt update
         sudo apt install -y dnsmasq
 
-        cat <<EOF > /etc/dnsmasq.conf
+        sudo tee /etc/resolv.conf <<EOF
           no-resolv
-          listen-address=127.0.0.1
+          listen-address=127.0.0.1, 10.0.4.4
           server=/privatelink.file.core.windows.net/168.63.129.16
           server=/nicholas.internal/168.63.129.16
           server=8.8.8.8
