@@ -235,7 +235,30 @@ resource dnsVmCustomScriptExtension 'Microsoft.Compute/virtualMachines/extension
     typeHandlerVersion: '2.1'
     autoUpgradeMinorVersion: true
     settings: {
-      commandToExecute: 'bash configure_dns.sh'
+      commandToExecute: '''bash -c "
+        cat <<'EOF' > /tmp/configure_dns.sh
+        #!/bin/bash
+
+        sudo apt update
+        sudo systemctl stop systemd-resolved
+        sudo systemctl disable systemd-resolved
+
+        sudo apt install -y dnsmasq
+
+        cat <<EOD > /etc/dnsmasq.conf
+            server=/privatelink.file.core.windows.net/168.63.129.16
+            server=/nicholas.internal/168.63.129.16
+            server=8.8.8.8
+            server=1.1.1.1
+            listen-address=127.0.0.1
+            listen-address=10.0.4.4
+        EOD
+
+        sudo systemctl restart dnsmasq
+        sudo systemctl enable dnsmasq
+        EOF
+        
+        bash /tmp/configure_dns.sh"'''
     }
   }
 }
