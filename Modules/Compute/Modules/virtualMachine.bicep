@@ -240,6 +240,8 @@ resource dnsVmCustomScriptExtension 'Microsoft.Compute/virtualMachines/extension
         
         #!/bin/bash
 
+        sudo apt update
+
         sudo systemctl stop systemd-resolved
         sudo systemctl disable systemd-resolved
 
@@ -248,7 +250,6 @@ resource dnsVmCustomScriptExtension 'Microsoft.Compute/virtualMachines/extension
 
         echo "nameserver 127.0.0.1" | sudo tee /etc/resolv.conf
 
-        sudo apt update
         sudo apt install -y dnsmasq
 
         sudo tee /etc/resolv.conf <<EOF
@@ -264,6 +265,7 @@ resource dnsVmCustomScriptExtension 'Microsoft.Compute/virtualMachines/extension
         sudo systemctl restart dnsmasq
 
         echo "127.0.0.1 dns-vm" >> /etc/hosts
+        echo "10.0.4.4 dns-vm" >> /etc/hosts
 
         echo "Dnsmasq configured and running"
         
