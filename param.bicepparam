@@ -108,3 +108,14 @@ param virtualMachineProperties = {
   }
 }
 
+param aksConfig = {
+  aksVersion: '1.31'
+  adminGroupObjectID: ''
+  podCidr: '10.10.20.0/24'
+  serviceCidr:'10.10.30.0/24'
+  dnsServiceIP: '10.10.20.10'
+  systemNodePool: {
+    vmSize: 'Standard_D2s_v2'
+    nodeCount: 2
+  }
+}
