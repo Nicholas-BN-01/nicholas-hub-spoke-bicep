@@ -40,9 +40,6 @@ resource hubVnetDeploy 'Microsoft.Network/virtualNetworks@2024-05-01' = {
         name: 'GatewaySubnet'
         properties: {
           addressPrefix: networkConfiguration.hubNetwork.subnets.azureGatewaySubnet
-          routeTable: {
-            id: routeTableID
-          }
         }
       }
       {
