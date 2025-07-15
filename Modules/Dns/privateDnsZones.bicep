@@ -1,4 +1,5 @@
 param resourceNames object
+param resourceLocation string
 
 resource hubVnetExisting 'Microsoft.Network/virtualNetworks@2024-05-01' existing = {
   name: resourceNames.network.hubNetwork
@@ -68,4 +69,44 @@ resource internalDNSZoneLinkSpoke 'Microsoft.Network/privateDnsZones/virtualNetw
   }
 }
 
+resource aksPrivateDNSZone 'Microsoft.Network/privateDnsZones@2024-06-01' = {
+  name: 'privatelink.${resourceLocation}.azmk8s.io'
+  location: 'Global'
+}
+
+resource aksPrivateDNSZoneLinkHub 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@2024-06-01' = {
+  name: 'aksPrivateDNSZoneLinkHub'
+  parent: aksPrivateDNSZone
+  dependsOn: [
+    filePrivateDNSZone
+    filePrivateDNSZoneLinkHub
+    filePrivateDNSZoneLinkSpoke
+  ]
+  location: 'Global'
+  properties: {
+    virtualNetwork: {
+      id: hubVnetExisting.id
+    }
+    registrationEnabled: false
+  }
+}
+
+resource aksPrivateDNSZoneLinkSpoke 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@2024-06-01' = {
+  name: 'aksPrivateDNSZoneLinkSpoke'
+  parent: aksPrivateDNSZone
+  dependsOn: [
+    filePrivateDNSZone
+    filePrivateDNSZoneLinkHub
+    filePrivateDNSZoneLinkSpoke
+  ]
+  location: 'Global'
+  properties: {
+    virtualNetwork: {
+      id: spokeVnetExisting.id
+    }
+    registrationEnabled: false
+  }
+}
+
 output filePrivateDNSZoneID string = filePrivateDNSZone.id
+output aksPrivateDNSZoneID string = aksPrivateDNSZone.id
