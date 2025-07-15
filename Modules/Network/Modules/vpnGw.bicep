@@ -55,6 +55,7 @@ resource vpnGateway 'Microsoft.Network/virtualNetworkGateways@2024-05-01' = {
       addressPrefixes: [
         '10.0.0.0/16'
         '10.10.0.0/16'
+        '0.0.0.0/0'
       ]
     }
     vpnClientConfiguration: {
