@@ -29,6 +29,9 @@ param resourceNames = {
     storageAccount: 'sa-${azureRgSuffix}'
     filePrivateEndpoint: 'file-pe-${azureRgSuffix}'
   }
+  compute: {
+    clusterName: 'spoke-cluster'
+  }
 }
 
 param networkConfiguration = {

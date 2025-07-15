@@ -4,6 +4,9 @@ param resourceLocation string
 param virtualMachineGlobals object
 param virtualMachineProperties object
 
+param aksConfig object
+param aksPrivateDNSZoneID string
+
 module virtualMachinesDeploy 'Modules/virtualMachine.bicep' = [
   for virtualMachine in items(virtualMachineProperties): {
     name: '${virtualMachineProperties[virtualMachine.key].name}-Deploy'
@@ -25,3 +28,14 @@ module virtualMachinesDeploy 'Modules/virtualMachine.bicep' = [
     }
   }
 ]
+
+module aksDeploy 'Modules/aks.bicep' = {
+  name: 'aks-Deploy'
+  params: {
+    resourceLocation: resourceLocation
+    resourceNames: resourceNames
+    aksConfig: aksConfig
+    aksManagedIdentityID: ''
+    aksPrivateDNSZoneID: aksPrivateDNSZoneID
+  }
+}

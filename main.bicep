@@ -5,7 +5,7 @@ param resourceLocation string
 param networkConfiguration object
 param virtualMachineGlobals object
 param virtualMachineProperties object
-//param aksConfig object
+param aksConfig object
 //param storageConfig object
 
 var deployNetwork = false
@@ -66,5 +66,7 @@ module computeDeploy 'Modules/Compute/compute-deploy.bicep' = if (deployCompute)
     resourceLocation: resourceLocation
     virtualMachineGlobals: virtualMachineGlobals
     virtualMachineProperties: virtualMachineProperties
+    aksConfig: aksConfig
+    aksPrivateDNSZoneID: dnsDeploy.outputs.aksPrivateDNSZoneID
   }
 }
