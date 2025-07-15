@@ -82,6 +82,7 @@ resource azureFirewall 'Microsoft.Network/azureFirewalls@2024-05-01' = {
         }
       }
     }
+    
   }
 }
 

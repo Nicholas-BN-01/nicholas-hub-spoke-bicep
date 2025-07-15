@@ -14,9 +14,6 @@ resource azureFirewallPolicy 'Microsoft.Network/firewallPolicies@2024-05-01' = {
 
 resource allowNetworkCollectionGroup 'Microsoft.Network/firewallPolicies/ruleCollectionGroups@2024-05-01' = {
   parent: azureFirewallPolicy
-  dependsOn: [
-    denyNetworkCollectionGroup
-  ]
   name: 'allowNetworkCollectionGroup'
   properties: {
     priority: 50000
