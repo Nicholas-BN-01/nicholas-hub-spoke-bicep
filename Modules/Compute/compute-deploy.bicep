@@ -29,13 +29,18 @@ module virtualMachinesDeploy 'Modules/virtualMachine.bicep' = [
   }
 ]
 
+resource aksManagedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2024-11-30' = {
+  name: resourceNames.compute.aksManagedIdentity
+  location: resourceLocation
+}
+
 module aksDeploy 'Modules/aks.bicep' = {
   name: 'aks-Deploy'
   params: {
     resourceLocation: resourceLocation
     resourceNames: resourceNames
     aksConfig: aksConfig
-    aksManagedIdentityID: ''
+    aksManagedIdentityID: aksManagedIdentity.id
     aksPrivateDNSZoneID: aksPrivateDNSZoneID
   }
 }

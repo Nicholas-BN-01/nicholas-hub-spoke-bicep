@@ -110,7 +110,7 @@ param virtualMachineProperties = {
 
 param aksConfig = {
   aksVersion: '1.31'
-  adminGroupObjectID: ''
+  adminGroupObjectID: '4f6712bb-1a02-43c0-81f0-ea7bf0c027b1'
   podCidr: '10.10.20.0/24'
   serviceCidr:'10.10.30.0/24'
   dnsServiceIP: '10.10.20.10'
