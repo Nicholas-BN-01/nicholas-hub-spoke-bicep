@@ -31,6 +31,7 @@ param resourceNames = {
   }
   compute: {
     clusterName: 'spoke-cluster'
+    aksManagedIdentity: 'aks-id-${azureRgSuffix}'
   }
 }
 
@@ -115,7 +116,7 @@ param aksConfig = {
   serviceCidr:'10.10.30.0/24'
   dnsServiceIP: '10.10.20.10'
   systemNodePool: {
-    vmSize: 'Standard_D2s_v2'
+    vmSize: 'Standard_D2s_v5'
     nodeCount: 2
   }
 }
