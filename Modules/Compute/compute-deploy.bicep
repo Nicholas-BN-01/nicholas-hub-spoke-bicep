@@ -34,6 +34,19 @@ resource aksManagedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@20
   location: resourceLocation
 }
 
+resource dnsZone 'Microsoft.Network/privateDnsZones@2024-06-01' existing = {
+  name: 'privatelink.${resourceLocation}.azmk8s.io'
+}
+
+resource dnsRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(aksManagedIdentity.id, dnsZone.id, 'Private DNS Zone Contributor')
+  scope: dnsZone
+  properties: {
+    principalId: aksManagedIdentity.id
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions','e4fe9e66-94ec-4e3e-8c5b-77e2e38e30f7')// Role of DNS Zone Contributor
+  }
+}
+
 module aksDeploy 'Modules/aks.bicep' = {
   name: 'aks-Deploy'
   params: {
