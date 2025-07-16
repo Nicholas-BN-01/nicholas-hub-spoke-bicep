@@ -7,6 +7,8 @@ param virtualMachineProperties object
 param aksConfig object
 param aksPrivateDNSZoneID string
 
+var privateDnsZoneContributorRoleGuid = 'e4fe9e66-94ec-4e3e-8c5b-77e2e38e30f7'
+
 module virtualMachinesDeploy 'Modules/virtualMachine.bicep' = [
   for virtualMachine in items(virtualMachineProperties): {
     name: '${virtualMachineProperties[virtualMachine.key].name}-Deploy'
@@ -38,17 +40,13 @@ resource dnsZone 'Microsoft.Network/privateDnsZones@2024-06-01' existing = {
   name: 'privatelink.${resourceLocation}.azmk8s.io'
 }
 
-resource privateDnsZoneContributorRole 'Microsoft.Authorization/roleAssignments@2022-04-01' existing = {
-  name: 'Private DNS Zone Contributor'
-}
-
 resource dnsRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(aksManagedIdentity.id, aksPrivateDNSZoneID, 'Private DNS Zone Contributor')
   scope: dnsZone
   properties: {
     principalId: aksManagedIdentity.properties.principalId
     principalType: 'ServicePrincipal'
-    roleDefinitionId: privateDnsZoneContributorRole.id
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', privateDnsZoneContributorRoleGuid)
   }
 }
 
