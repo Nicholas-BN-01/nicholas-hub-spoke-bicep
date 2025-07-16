@@ -114,7 +114,7 @@ param aksConfig = {
   adminGroupObjectID: '4f6712bb-1a02-43c0-81f0-ea7bf0c027b1'
   podCidr: '10.10.20.0/24'
   serviceCidr:'10.10.30.0/24'
-  dnsServiceIP: '10.10.20.10'
+  dnsServiceIP: '10.10.30.10'
   systemNodePool: {
     vmSize: 'Standard_D2s_v5'
     nodeCount: 2
