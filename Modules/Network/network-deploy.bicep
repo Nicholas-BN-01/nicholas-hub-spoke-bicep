@@ -62,6 +62,7 @@ module azureFirewallDeploy 'Modules/afw.bicep' = {
   name: 'azureFirewall-Deploy'
   dependsOn: [
     virtualNetwork
+    azureVPNGatewayDeploy
   ]
   params: {
     resourceLocation: resourceLocation
