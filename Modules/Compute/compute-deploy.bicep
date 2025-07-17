@@ -52,16 +52,11 @@ resource uamiDnsZoneContributorRoleAssignment 'Microsoft.Authorization/roleAssig
   }
 }
 
-resource aksRbacAdminRoleDefinition 'Microsoft.Authorization/roleDefinitions@2022-04-01' = {
-  scope: resourceGroup()
-  name: 'b1ff04bb-8a4e-4dc4-8eb5-8693973ce19b'
-}
-
 resource aksUserRbacRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(aksRbacAdminRoleDefinition.id, aadUserObjectID, aksRbacAdminRoleDefinition.id)
+  name: guid(aksManagedIdentity.id, aadUserObjectID, aksPrivateDNSZoneID)
   scope: resourceGroup()
   properties: {
-    roleDefinitionId: aksRbacAdminRoleDefinition.id
+    roleDefinitionId: '/providers/Microsoft.Authorization/roleDefinitions/b1ff04bb-8a4e-4dc4-8eb5-8693973ce19b'
     principalId: aadUserObjectID
     principalType: 'User'
   }
