@@ -55,7 +55,7 @@ resource azureKubernetesService 'Microsoft.ContainerService/managedClusters@2025
       adminGroupObjectIDs: [
         aksConfig.adminGroupObjectID
       ]
-      enableAzureRBAC: false
+      enableAzureRBAC: true
       managed: true
       tenantID: subscription().tenantId
     }
