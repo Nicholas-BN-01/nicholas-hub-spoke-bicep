@@ -36,17 +36,18 @@ resource aksManagedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@20
   location: resourceLocation
 }
 
-resource dnsZone 'Microsoft.Network/privateDnsZones@2024-06-01' existing = {
+resource aksPrivateDNSZone 'Microsoft.Network/privateDnsZones@2024-06-01' existing = {
   name: 'privatelink.${resourceLocation}.azmk8s.io'
+  scope: resourceGroup()
 }
 
-resource dnsRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+resource uamiDnsZoneContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(aksManagedIdentity.id, aksPrivateDNSZoneID, 'Private DNS Zone Contributor')
-  scope: dnsZone
+  scope: aksPrivateDNSZone
   properties: {
+    roleDefinitionId: '/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c'
     principalId: aksManagedIdentity.properties.principalId
     principalType: 'ServicePrincipal'
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', privateDnsZoneContributorRoleGuid)
   }
 }
 
