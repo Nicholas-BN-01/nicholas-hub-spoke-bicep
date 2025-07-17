@@ -68,5 +68,6 @@ module computeDeploy 'Modules/Compute/compute-deploy.bicep' = if (deployCompute)
     virtualMachineProperties: virtualMachineProperties
     aksConfig: aksConfig
     aksPrivateDNSZoneID: dnsDeploy.outputs.aksPrivateDNSZoneID
+    aadUserObjectID: aksConfig.aadUserObjectID
   }
 }

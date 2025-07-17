@@ -6,6 +6,7 @@ param virtualMachineProperties object
 
 param aksConfig object
 param aksPrivateDNSZoneID string
+param aadUserObjectID string
 
 var privateDnsZoneContributorRoleGuid = 'e4fe9e66-94ec-4e3e-8c5b-77e2e38e30f7'
 
@@ -48,6 +49,21 @@ resource uamiDnsZoneContributorRoleAssignment 'Microsoft.Authorization/roleAssig
     roleDefinitionId: '/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c'
     principalId: aksManagedIdentity.properties.principalId
     principalType: 'ServicePrincipal'
+  }
+}
+
+resource aksRbacAdminRoleDefinition 'Microsoft.Authorization/roleDefinitions@2022-04-01' = {
+  scope: resourceGroup()
+  name: 'b1ff04bb-8a4e-4dc4-8eb5-8693973ce19b'
+}
+
+resource aksUserRbacRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(aksRbacAdminRoleDefinition.id, aadUserObjectID, aksRbacAdminRoleDefinition.id)
+  scope: resourceGroup()
+  properties: {
+    roleDefinitionId: aksRbacAdminRoleDefinition.id
+    principalId: aadUserObjectID
+    principalType: 'User'
   }
 }
 

@@ -74,3 +74,5 @@ resource azureKubernetesService 'Microsoft.ContainerService/managedClusters@2025
     }
   }
 }
+
+output AKSID string = azureKubernetesService.id
