@@ -252,7 +252,7 @@ no-resolv
 listen-address=127.0.0.1,10.0.4.4
 server=/privatelink.file.core.windows.net/168.63.129.16
 server=/nicholas.internal/168.63.129.16
-server=/privatelink.italynorth.azmk8s.io
+server=/privatelink.italynorth.azmk8s.io/168.63.129.16
 server=8.8.8.8
 server=1.1.1.1
 EOF
