@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-html-template-b
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>NGINX B</title>
+            <style>
+                body {background-color: rgb(9, 122, 221);}
+            </style>
+        </head>
+        <body>
+            <h1>Hello World from Pod B</h1>
+        </body>
+    </html>

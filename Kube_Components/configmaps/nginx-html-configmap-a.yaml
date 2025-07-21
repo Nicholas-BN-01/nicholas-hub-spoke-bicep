@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-html-template-a
+data:
+  index.html: | 
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>NGINX A</title>
+            <style>
+                body {background-color: aliceblue;}
+            </style>
+        </head>
+        <body>
+            <h1>Hello World from Alice</h1>
+        </body>
+    </html>
