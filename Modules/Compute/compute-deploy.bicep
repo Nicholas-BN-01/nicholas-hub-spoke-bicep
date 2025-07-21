@@ -42,9 +42,28 @@ resource aksPrivateDNSZone 'Microsoft.Network/privateDnsZones@2024-06-01' existi
   scope: resourceGroup()
 }
 
+resource spokeVnetExisting 'Microsoft.Network/virtualNetworks@2024-07-01' existing = {
+  name: resourceNames.network.spokeNetwork
+}
+
+resource aksSubnetExisting 'Microsoft.Network/virtualNetworks/subnets@2024-07-01' existing = {
+  parent: spokeVnetExisting
+  name: 'AKSSubnet'
+}
+
 resource uamiDnsZoneContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(aksManagedIdentity.id, aksPrivateDNSZoneID, 'Private DNS Zone Contributor')
   scope: aksPrivateDNSZone
+  properties: {
+    roleDefinitionId: '/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c'
+    principalId: aksManagedIdentity.properties.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
+resource uamiNetworkContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(aksManagedIdentity.id, aksSubnetExisting.id, 'Network Contributor')
+  scope: aksSubnetExisting
   properties: {
     roleDefinitionId: '/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c'
     principalId: aksManagedIdentity.properties.principalId
