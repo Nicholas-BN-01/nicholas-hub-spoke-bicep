@@ -55,7 +55,7 @@ resource uamiDnsZoneContributorRoleAssignment 'Microsoft.Authorization/roleAssig
   name: guid(aksManagedIdentity.id, aksPrivateDNSZoneID, 'Private DNS Zone Contributor')
   scope: aksPrivateDNSZone
   properties: {
-    roleDefinitionId: '/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c'
+    roleDefinitionId: '/providers/Microsoft.Authorization/roleDefinitions/befefa01-2a29-4197-83a8-272ff33ce314'
     principalId: aksManagedIdentity.properties.principalId
     principalType: 'ServicePrincipal'
   }
