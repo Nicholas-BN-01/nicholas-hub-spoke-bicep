@@ -20,14 +20,18 @@ resource aksNodeSubnet 'Microsoft.Network/virtualNetworks/subnets@2024-05-01' ex
 }
 
 resource uamiExisting 'Microsoft.ManagedIdentity/userAssignedIdentities@2024-11-30' existing = {
-  name: resourceNames.compute.uamiExisting
+  name: resourceNames.compute.aksManagedIdentity
+}
+
+resource privateDNSZoneExisting 'Microsoft.Network/privateDnsZones@2024-06-01' existing = {
+  name: 'privatelink.italynorth.azmk8s.io'
 }
 
 // UAMI DNS Zone Contributor
 
 resource uamiDnsZoneContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(uamiExisting.id, resourceGroup().id, 'Private DNS Zone Contributor')
-  scope: resourceGroup()
+  scope: privateDNSZoneExisting
   properties: {
     roleDefinitionId: '/providers/Microsoft.Authorization/roleDefinitions/${privateDNSZoneContributorID}'
     principalId: uamiExisting.properties.principalId
@@ -70,7 +74,6 @@ resource aksUserRbacRoleAssignment 'Microsoft.Authorization/roleAssignments@2022
     principalType: 'User'
   }
 }
-
 
 resource azureKubernetesService 'Microsoft.ContainerService/managedClusters@2025-04-01' = {
   name: resourceNames.compute.clusterName
