@@ -35,20 +35,6 @@ resource aksManagedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@20
   location: resourceLocation
 }
 
-resource aksPrivateDNSZone 'Microsoft.Network/privateDnsZones@2024-06-01' existing = {
-  name: 'privatelink.${resourceLocation}.azmk8s.io'
-  scope: resourceGroup()
-}
-
-resource spokeVnetExisting 'Microsoft.Network/virtualNetworks@2024-07-01' existing = {
-  name: resourceNames.network.spokeNetwork
-}
-
-resource aksSubnetExisting 'Microsoft.Network/virtualNetworks/subnets@2024-07-01' existing = {
-  parent: spokeVnetExisting
-  name: 'AKSSubnet'
-}
-
 module aksDeploy 'Modules/aks.bicep' = {
   name: 'aks-Deploy'
   params: {
