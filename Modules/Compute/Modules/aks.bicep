@@ -53,7 +53,7 @@ resource azureKubernetesService 'Microsoft.ContainerService/managedClusters@2025
     disableLocalAccounts: true
     aadProfile: {
       adminGroupObjectIDs: [
-        aksConfig.adminGroupObjectID
+        aksConfig.aadUserObjectId
       ]
       enableAzureRBAC: true
       managed: true
