@@ -9,6 +9,7 @@ param aadUserObjectID string
 var privateDNSZoneContributorID string = 'befefa01-2a29-4197-83a8-272ff33ce314'
 var networkContributorID string = 'b24988ac-6180-42a0-ab88-20f7382dd24c'
 var aksClusterUserID string = 'b1ff04bb-8a4e-4dc4-8eb5-8693973ce19b'
+var readerString string = 'acdd72a7-3385-48ef-bd42-f606fba81ae7'
 
 resource spokeVnetExisting 'Microsoft.Network/virtualNetworks@2024-05-01' existing = {
   name: resourceNames.network.spokeNetwork
@@ -25,6 +26,21 @@ resource uamiExisting 'Microsoft.ManagedIdentity/userAssignedIdentities@2024-11-
 
 resource privateDNSZoneExisting 'Microsoft.Network/privateDnsZones@2024-06-01' existing = {
   name: 'privatelink.italynorth.azmk8s.io'
+}
+
+// UAMI Reader
+
+resource aksRGReaderRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(resourceGroup().id, readerString, uamiExisting.id)
+  scope: resourceGroup()
+  properties: {
+    roleDefinitionId: subscriptionResourceId(
+      'Microsoft.Authorization/roleDefinitions',
+      readerString
+    )
+    principalId: uamiExisting.properties.principalId
+    principalType: 'ServicePrincipal'
+  }
 }
 
 // UAMI DNS Zone Contributor
