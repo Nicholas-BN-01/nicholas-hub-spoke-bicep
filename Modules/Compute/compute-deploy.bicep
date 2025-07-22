@@ -53,9 +53,11 @@ resource aksSubnetExisting 'Microsoft.Network/virtualNetworks/subnets@2024-07-01
   name: 'AKSSubnet'
 }
 
+// UAMI DNS Zone Contributor
+
 resource uamiDnsZoneContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(aksManagedIdentity.id, resourceGroup().id, 'Private DNS Zone Contributor')
-  scope: aksPrivateDNSZone
+  scope: resourceGroup()
   properties: {
     roleDefinitionId: '/providers/Microsoft.Authorization/roleDefinitions/${privateDNSZoneContributorID}'
     principalId: aksManagedIdentity.properties.principalId
@@ -63,15 +65,31 @@ resource uamiDnsZoneContributorRoleAssignment 'Microsoft.Authorization/roleAssig
   }
 }
 
+// UAMI Network Contributor
+
 resource uamiNetworkContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(aksManagedIdentity.id, aksSubnetExisting.id, 'Network Contributor')
-  scope: aksSubnetExisting
+  scope: spokeVnetExisting
   properties: {
     roleDefinitionId: '/providers/Microsoft.Authorization/roleDefinitions/${networkContributorID}'
     principalId: aksManagedIdentity.properties.principalId
     principalType: 'ServicePrincipal'
   }
 }
+
+// UAMI AKS Admin
+
+resource uamiAksAdminRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(aksManagedIdentity.id, aksSubnetExisting.id, 'Network Contributor')
+  scope: aksSubnetExisting
+  properties: {
+    roleDefinitionId: '/providers/Microsoft.Authorization/roleDefinitions/${aksClusterUserID}'
+    principalId: aksManagedIdentity.properties.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
+// Tenant AKS Admin
 
 resource aksUserRbacRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(aksManagedIdentity.id, aadUserObjectID, 'AKS Cluster Admin')
