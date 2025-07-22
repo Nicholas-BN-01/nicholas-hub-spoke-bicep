@@ -6,11 +6,12 @@ param aksConfig object
 param aksPrivateDNSZoneID string
 param aadUserObjectID string
 
-var privateDNSZoneContributorID string = 'b12aa53e-6015-4669-85d0-8515ebb3ae7f'
-var networkContributorID string = '4d97b98b-1d4f-4787-a291-c67834d212e7'
-var aksClusterUserID string = '4abbcc35-e782-43d8-92c5-2d3f1bd2253f'
-var aksAdminID string = '3498e952-d568-435e-9b2c-8d77e338d7f7'
-var readerString string = 'acdd72a7-3385-48ef-bd42-f606fba81ae7'
+var privateDNSZoneContributorID string = resourceId('Microsoft.Authorization/roleDefinitions', 'b12aa53e-6015-4669-85d0-8515ebb3ae7f')
+var networkContributorID string = resourceId('Microsoft.Authorization/roleDefinitions', '4d97b98b-1d4f-4787-a291-c67834d212e7')
+var aksAdminID string = resourceId('Microsoft.Authorization/roleDefinitions', 'b1ff04bb-8a4e-4dc4-8eb5-8693973ce19b')
+
+//var aksClusterUserID string = '4abbcc35-e782-43d8-92c5-2d3f1bd2253f'
+//var readerString string = 'acdd72a7-3385-48ef-bd42-f606fba81ae7'
 
 resource spokeVnetExisting 'Microsoft.Network/virtualNetworks@2024-05-01' existing = {
   name: resourceNames.network.spokeNetwork
@@ -35,10 +36,7 @@ resource uamiDnsZoneContributorRoleAssignment 'Microsoft.Authorization/roleAssig
   name: guid(uamiExisting.id, resourceGroup().id, 'Private DNS Zone Contributor')
   scope: privateDNSZoneExisting
   properties: {
-    roleDefinitionId: subscriptionResourceId(
-      'Microsoft.Authorization/roleDefinitions',
-      privateDNSZoneContributorID
-    )
+    roleDefinitionId: privateDNSZoneContributorID
     principalId: uamiExisting.properties.principalId
     principalType: 'ServicePrincipal'
   }
@@ -50,55 +48,19 @@ resource uamiNetworkContributorRoleAssignment 'Microsoft.Authorization/roleAssig
   name: guid(uamiExisting.id, aksNodeSubnet.id, 'Network Contributor')
   scope: spokeVnetExisting
   properties: {
-    roleDefinitionId: subscriptionResourceId(
-      'Microsoft.Authorization/roleDefinitions',
-      networkContributorID
-    )
+    roleDefinitionId: networkContributorID
     principalId: uamiExisting.properties.principalId
     principalType: 'ServicePrincipal'
-  }
-}
-
-// UAMI AKS Admin on cluster
-
-resource uamiAksAdminRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(uamiExisting.id, aksNodeSubnet.id, 'AKS Cluster User')
-  scope: azureKubernetesService
-  properties: {
-    roleDefinitionId: subscriptionResourceId(
-      'Microsoft.Authorization/roleDefinitions',
-      aksClusterUserID
-    )
-    principalId: uamiExisting.properties.principalId
-    principalType: 'ServicePrincipal'
-  }
-}
-
-// Tenant Reader on Cluster
-
-resource readerRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(uamiExisting.id, readerString, 'Reader')
-  scope: resourceGroup()
-  properties: {
-    roleDefinitionId: subscriptionResourceId(
-      'Microsoft.Authorization/roleDefinitions',
-      readerString
-    )
-    principalId: aadUserObjectID
-    principalType: 'User'
   }
 }
 
 // Tenant AKS Admin on cluster
 
 resource aksUserRbacRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(uamiExisting.id, aadUserObjectID, 'AKS Cluster Admin')
+  name: guid(uamiExisting.id, aksAdminID, 'AKS Cluster Admin')
   scope: azureKubernetesService
   properties: {
-    roleDefinitionId: subscriptionResourceId(
-      'Microsoft.Authorization/roleDefinitions',
-      aksAdminID
-    )
+    roleDefinitionId: aksAdminID
     principalId: aadUserObjectID
     principalType: 'User'
   }
