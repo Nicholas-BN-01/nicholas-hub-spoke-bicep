@@ -9,7 +9,7 @@ param aadUserObjectID string
 var privateDNSZoneContributorID string = 'b12aa53e-6015-4669-85d0-8515ebb3ae7f'
 var networkContributorID string = '4d97b98b-1d4f-4787-a291-c67834d212e7'
 var aksClusterUserID string = '4abbcc35-e782-43d8-92c5-2d3f1bd2253f'
-var aksAdminID string = 'b1ff04bb-8a4e-4dc4-8eb5-8693973ce19b'
+var aksAdminID string = '3498e952-d568-435e-9b2c-8d77e338d7f7'
 var readerString string = 'acdd72a7-3385-48ef-bd42-f606fba81ae7'
 
 resource spokeVnetExisting 'Microsoft.Network/virtualNetworks@2024-05-01' existing = {
@@ -78,14 +78,14 @@ resource uamiAksAdminRoleAssignment 'Microsoft.Authorization/roleAssignments@202
 
 resource readerRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(uamiExisting.id, readerString, 'Reader')
-  scope: azureKubernetesService
+  scope: resourceGroup()
   properties: {
     roleDefinitionId: subscriptionResourceId(
       'Microsoft.Authorization/roleDefinitions',
       readerString
     )
     principalId: aadUserObjectID
-    principalType: 'ServicePrincipal'
+    principalType: 'User'
   }
 }
 
@@ -97,7 +97,7 @@ resource aksUserRbacRoleAssignment 'Microsoft.Authorization/roleAssignments@2022
   properties: {
     roleDefinitionId: subscriptionResourceId(
       'Microsoft.Authorization/roleDefinitions',
-      aksClusterUserID
+      aksAdminID
     )
     principalId: aadUserObjectID
     principalType: 'User'
@@ -140,7 +140,6 @@ resource azureKubernetesService 'Microsoft.ContainerService/managedClusters@2025
         maxPods: 30
       }
     ]
-    disableLocalAccounts: true
     aadProfile: {
       adminGroupObjectIDs: [
         aksConfig.aadUserObjectId
