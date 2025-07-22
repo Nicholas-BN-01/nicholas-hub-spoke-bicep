@@ -49,7 +49,10 @@ resource uamiDnsZoneContributorRoleAssignment 'Microsoft.Authorization/roleAssig
   name: guid(uamiExisting.id, resourceGroup().id, 'Private DNS Zone Contributor')
   scope: privateDNSZoneExisting
   properties: {
-    roleDefinitionId: '/providers/Microsoft.Authorization/roleDefinitions/${privateDNSZoneContributorID}'
+    roleDefinitionId: subscriptionResourceId(
+      'Microsoft.Authorization/roleDefinitions',
+      privateDNSZoneContributorID
+    )
     principalId: uamiExisting.properties.principalId
     principalType: 'ServicePrincipal'
   }
@@ -61,7 +64,10 @@ resource uamiNetworkContributorRoleAssignment 'Microsoft.Authorization/roleAssig
   name: guid(uamiExisting.id, aksNodeSubnet.id, 'Network Contributor')
   scope: spokeVnetExisting
   properties: {
-    roleDefinitionId: '/providers/Microsoft.Authorization/roleDefinitions/${networkContributorID}'
+    roleDefinitionId: subscriptionResourceId(
+      'Microsoft.Authorization/roleDefinitions',
+      networkContributorID
+    )
     principalId: uamiExisting.properties.principalId
     principalType: 'ServicePrincipal'
   }
@@ -73,7 +79,10 @@ resource uamiAksAdminRoleAssignment 'Microsoft.Authorization/roleAssignments@202
   name: guid(uamiExisting.id, aksNodeSubnet.id, 'AKS Cluster User')
   scope: azureKubernetesService
   properties: {
-    roleDefinitionId: '/providers/Microsoft.Authorization/roleDefinitions/${aksClusterUserID}'
+    roleDefinitionId: subscriptionResourceId(
+      'Microsoft.Authorization/roleDefinitions',
+      aksClusterUserID
+    )
     principalId: uamiExisting.properties.principalId
     principalType: 'ServicePrincipal'
   }
@@ -85,7 +94,10 @@ resource aksUserRbacRoleAssignment 'Microsoft.Authorization/roleAssignments@2022
   name: guid(uamiExisting.id, aadUserObjectID, 'AKS Cluster Admin')
   scope: azureKubernetesService
   properties: {
-    roleDefinitionId: '/providers/Microsoft.Authorization/roleDefinitions/${aksClusterUserID}'
+    roleDefinitionId: subscriptionResourceId(
+      'Microsoft.Authorization/roleDefinitions',
+      aksClusterUserID
+    )
     principalId: aadUserObjectID
     principalType: 'User'
   }
