@@ -18,7 +18,6 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-11-01' = {
   location: resourceLocation
 }
 
-
 module networkDeploy 'Modules/Network/network-deploy.bicep' = if (deployNetwork) {
   scope: resourceGroup
   name: 'network-deploy'
