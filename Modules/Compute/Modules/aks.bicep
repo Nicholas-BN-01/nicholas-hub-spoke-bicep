@@ -6,6 +6,15 @@ param aksConfig object
 param aksPrivateDNSZoneID string
 param aadUserObjectID string
 
+// UAMI
+// Contributor on Resource Group
+// Reader & Contributor on Private DNS Zone
+
+// Tenant
+// AKS Cluster Admin on cluster
+// Contributor on cluster for Azure Portal
+// Network Contributor on Resource Group for Ingress
+
 var privateDNSZoneContributorID string = resourceId('Microsoft.Authorization/roleDefinitions', 'b12aa53e-6015-4669-85d0-8515ebb3ae7f')
 var networkContributorID string = resourceId('Microsoft.Authorization/roleDefinitions', '4d97b98b-1d4f-4787-a291-c67834d212e7')
 var aksAdminID string = resourceId('Microsoft.Authorization/roleDefinitions', 'b1ff04bb-8a4e-4dc4-8eb5-8693973ce19b')
