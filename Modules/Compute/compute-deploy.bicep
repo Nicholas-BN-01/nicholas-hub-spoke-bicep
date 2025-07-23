@@ -41,7 +41,6 @@ module aksDeploy 'Modules/aks.bicep' = {
     resourceLocation: resourceLocation
     resourceNames: resourceNames
     aksConfig: aksConfig
-    aksManagedIdentityID: aksManagedIdentity.id
     aksPrivateDNSZoneID: aksPrivateDNSZoneID
     aadUserObjectID: aadUserObjectID
   }

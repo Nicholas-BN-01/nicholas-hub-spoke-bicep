@@ -1,19 +1,17 @@
 param resourceNames object
 param resourceLocation string
 
-param aksManagedIdentityID string
 param aksConfig object
 param aksPrivateDNSZoneID string
 param aadUserObjectID string
 
 // UAMI
-// Contributor on Resource Group
+// Network Contributor
 // Reader & Contributor on Private DNS Zone
 
 // Tenant
 // AKS Cluster Admin on cluster
 // Contributor on cluster for Azure Portal
-// Network Contributor on Resource Group for Ingress
 
 var privateDNSZoneContributorID string = resourceId('Microsoft.Authorization/roleDefinitions', 'b12aa53e-6015-4669-85d0-8515ebb3ae7f')
 var networkContributorID string = resourceId('Microsoft.Authorization/roleDefinitions', '4d97b98b-1d4f-4787-a291-c67834d212e7')
@@ -64,7 +62,7 @@ resource uamiDnsZoneReaderRoleAssignment 'Microsoft.Authorization/roleAssignment
   }
 }
 
-// UAMI Network Contributor on Vnet Spoke
+// UAMI Network Contributor on Resource group
 
 resource uamiNetworkContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(uamiExisting.id, aksNodeSubnet.id, 'Network Contributor')
