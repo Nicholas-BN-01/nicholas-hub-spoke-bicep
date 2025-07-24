@@ -1,0 +1,15 @@
+apiversion: kustomize.config.k8s.io/v1
+kind: Kustomization
+
+namespace: nginx-namespace
+
+commonLabels:
+  app: nginx
+
+resources:
+  - nginx-namespace.yaml
+  - configmaps/
+  - deployments/
+  - services/
+  - nginx-ingress-controller.yaml
+  - nginx-ingress.yaml
