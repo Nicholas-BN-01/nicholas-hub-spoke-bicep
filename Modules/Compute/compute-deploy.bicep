@@ -23,9 +23,6 @@ module virtualMachinesDeploy 'Modules/virtualMachine.bicep' = [
       osDiskSize: virtualMachineGlobals.osDisk.diskSize
       osDiskType: virtualMachineGlobals.osDisk.diskType
       vmPrivateIPAddress: virtualMachineProperties[virtualMachine.key].vmPrivateIPAddress
-      backupEnabled: virtualMachineGlobals.backupEnabled
-      sqlEnabled: virtualMachineGlobals.sqlEnabled
-      sqlServerLicense: virtualMachineGlobals.sqlServerLicense
     }
   }
 ]

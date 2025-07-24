@@ -68,6 +68,10 @@ param networkConfiguration = {
     AKSLoadBalancer1: '10.10.1.7'
     dnsVM: '10.0.4.4'
   }
+  dnsServers: {
+    dnsForwarder: '10.0.4.4'
+    azureDns: '168.63.129.16'
+  }
 }
 
 param virtualMachineGlobals = {
@@ -82,9 +86,6 @@ param virtualMachineGlobals = {
   }
   vmSize: 'Standard_D2s_v5'
   vmZone: '1'
-  sqlEnabled: false 
-  backupEnabled: false 
-  sqlServerLicense: ''
   osDisk: {
     diskSize: 30
     diskType: 'Standard_LRS'

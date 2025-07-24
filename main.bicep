@@ -37,6 +37,7 @@ module dnsDeploy 'Modules/Dns/privateDnsZones.bicep' = if (deployDns) {
   params: {
     resourceNames: resourceNames
     resourceLocation: resourceLocation
+    networkConfiguration: networkConfiguration
   }
 }
 

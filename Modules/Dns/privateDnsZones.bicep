@@ -1,5 +1,6 @@
 param resourceNames object
 param resourceLocation string
+param networkConfiguration object
 
 resource hubVnetExisting 'Microsoft.Network/virtualNetworks@2024-05-01' existing = {
   name: resourceNames.network.hubNetwork
@@ -66,6 +67,19 @@ resource internalDNSZoneLinkSpoke 'Microsoft.Network/privateDnsZones/virtualNetw
       id: spokeVnetExisting.id
     }
     registrationEnabled: true
+  }
+}
+
+resource ingressARecord 'Microsoft.Network/privateDnsZones/A@2024-06-01' = {
+  parent: internalDNSZoneGroup
+  name: 'vamosali'
+  properties: {
+    ttl: 3600
+    aRecords: [
+      {
+        ipv4Address: networkConfiguration.spokeNetwork.staticIPAddresses.AKSLoadBalancer1
+      }
+    ]
   }
 }
 

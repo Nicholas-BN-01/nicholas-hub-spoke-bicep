@@ -13,10 +13,6 @@ param osDiskSize int
 param osDiskType string
 param osVersion string
 
-param backupEnabled bool
-param sqlEnabled bool
-param sqlServerLicense string
-
 var vpnRangeIP = '172.16.0.0/24'
 var hubRangeIP = '10.0.0.0/16'
 var spokeRangeIP = '10.10.0.0/16'
