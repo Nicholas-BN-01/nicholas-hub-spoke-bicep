@@ -14,10 +14,10 @@ resources:
 configMapGenerator:
   - name: nginx-html-template-a
     files:
-    - configmaps/index-a.html
+    - index.html=configmaps/index-a.html
   - name: nginx-html-template-b
     files:
-    - configmaps/index-b.html
+    - index.html=configmaps/index-b.html
 
 patches:
   - target:
