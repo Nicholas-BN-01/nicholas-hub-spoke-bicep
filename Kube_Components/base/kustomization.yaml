@@ -1,4 +1,4 @@
-apiversion: kustomize.config.k8s.io/v1
+apiversion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 namespace: nginx-namespace
@@ -8,9 +8,10 @@ commonLabels:
 
 resources:
   - nginx-namespace.yaml
-  - deployments/
-  - services/
-  - nginx-ingress-controller.yaml
+  - deployments/nginx-deployment-a.yaml
+  - deployments/nginx-deployment-b.yaml
+  - services/nginx-service-a.yaml
+  - services/nginx-service-b.yaml
   - nginx-ingress.yaml
 
 configMapGenerator:
