@@ -3,9 +3,6 @@ kind: Kustomization
 
 namespace: nginx-namespace
 
-commonLabels:
-  app: nginx
-
 resources:
   - nginx-namespace.yaml
   - deployments/nginx-deployment-a.yaml
@@ -21,3 +18,42 @@ configMapGenerator:
   - name: nginx-html-template-b
     files:
     - configmaps/index-b.html
+
+patches:
+  - target:
+      kind: Deployment
+      name: nginx-deployment-a
+    patch: |-
+      - op: replace
+        path: /spec/selector/matchLabels/app
+        value: nginx-a
+      - op: replace 
+        path: /spec/template/metadata/labels/app
+        value: nginx-a
+    
+  - target:
+      kind: Deployment
+      name: nginx-deployment-b
+    patch: |-
+      - op: replace 
+        path: /spec/selector/matchLabels/app
+        value: nginx-b
+      - op: replace
+        path: /spec/template/metadata/labels/app
+        value: nginx-b
+  
+  - target:
+      kind: Service
+      name: nginx-service-a
+    patch: |-
+      - op: replace
+        path: /spec/selector/app
+        value: nginx-a
+
+  - target:
+      kind: Service
+      name: nginx-service-b
+    patch: |-
+      - op: replace
+        path: /spec/selector/app
+        value: nginx-b

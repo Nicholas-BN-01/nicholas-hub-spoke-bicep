@@ -5,8 +5,6 @@ metadata:
   labels:
     app: nginx-a
 spec:
-  selector:
-    app: nginx-a
   ports:
   - protocol: TCP
     port: 80
