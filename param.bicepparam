@@ -65,7 +65,7 @@ param networkConfiguration = {
     testVM: '10.10.3.4'
     AKSAPIServer: '10.10.1.4'
     AKSNode1: '10.10.1.5'
-    AKSLoadBalancer1: '10.10.1.6'
+    AKSLoadBalancer1: '10.10.1.7'
     dnsVM: '10.0.4.4'
   }
 }
