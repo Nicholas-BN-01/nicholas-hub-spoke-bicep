@@ -1,0 +1,28 @@
+controller:
+  name: controller
+  ingressClassResource:
+    name: nginx
+    enabled: true
+    default: true
+  ingressClass: nginx
+  replicaCount: 2
+  nodeSelector: {}
+  tolerations: {}
+  affinity: {}
+
+  service:
+    enabled: true
+    type: LoadBalancer
+    annotations:
+      service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+    ports:
+      http: 80
+      https: 443
+  
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: false
+  
+  defaultBackend:
+    enabled: false

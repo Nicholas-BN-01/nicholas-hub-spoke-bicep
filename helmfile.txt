@@ -1,0 +1,6 @@
+deploy-ingress:
+    helm upgrade --install nginx-ingress ingress-nginx/ingress-nginx \
+        --namespace ingress-nginx --create-namespace -f ingress-nginx/values.yaml
+
+deploy-app:
+    kubectl apply -k Kube_Components/base/
