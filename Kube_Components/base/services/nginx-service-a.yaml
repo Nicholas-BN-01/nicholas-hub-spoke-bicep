@@ -6,6 +6,7 @@ metadata:
     app: nginx-a
 spec:
   selector:
+    {}
   ports:
   - protocol: TCP
     port: 80
